@@ -1,0 +1,26 @@
+[0.020s] Invoking command in '/home/pawla/ros2_ws/src/build/rover_description': /usr/bin/cmake /home/pawla/ros2_ws/src/rover_description/Rover_description -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/pawla/ros2_ws/src/install/rover_description
+[0.118s] -- The C compiler identification is GNU 13.3.0
+[0.356s] -- The CXX compiler identification is GNU 13.3.0
+[0.563s] -- Detecting C compiler ABI info
+[0.733s] -- Detecting C compiler ABI info - done
+[0.740s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.740s] -- Detecting C compile features
+[0.740s] -- Detecting C compile features - done
+[0.777s] -- Detecting CXX compiler ABI info
+[0.961s] -- Detecting CXX compiler ABI info - done
+[0.967s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.968s] -- Detecting CXX compile features
+[0.968s] -- Detecting CXX compile features - done
+[0.971s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[1.303s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[1.481s] [31mCMake Error at /opt/ros/jazzy/share/ament_cmake_core/cmake/core/ament_package_xml.cmake:53 (message):
+[1.482s]   ament_package_xml() package name 'rover_description' in '/package.xml' does
+[1.482s]   not match current PROJECT_NAME 'Rover_description'.  You must call
+[1.482s]   project() with the same package name before.
+[1.482s] Call Stack (most recent call first):
+[1.482s]   /opt/ros/jazzy/share/ament_cmake_core/cmake/core/ament_package.cmake:63 (ament_package_xml)
+[1.482s]   CMakeLists.txt:103 (ament_package)
+[1.482s] 
+[1.482s] [0m
+[1.482s] -- Configuring incomplete, errors occurred!
+[1.488s] Invoked command in '/home/pawla/ros2_ws/src/build/rover_description' returned '1': /usr/bin/cmake /home/pawla/ros2_ws/src/rover_description/Rover_description -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/pawla/ros2_ws/src/install/rover_description

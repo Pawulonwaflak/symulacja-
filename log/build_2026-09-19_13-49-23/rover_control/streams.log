@@ -1,0 +1,26 @@
+[1.296s] Invoking command in '/home/pawla/ros2_ws/build/rover_control': PYTHONPATH=/home/pawla/ros2_ws/build/rover_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pawla/ros2_ws/install/rover_control/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/pawla/ros2_ws/build/rover_control/build --no-deps symlink_data
+[1.622s] running develop
+[1.778s] /usr/lib/python3/dist-packages/setuptools/command/easy_install.py:363: UserWarning: Unbuilt egg for pytest-repeat [unknown version] (/usr/lib/python3/dist-packages)
+[1.778s]   self.local_index = Environment(self.shadow_path + sys.path)
+[1.814s] running egg_info
+[1.814s] creating rover_control.egg-info
+[1.839s] writing rover_control.egg-info/PKG-INFO
+[1.839s] writing dependency_links to rover_control.egg-info/dependency_links.txt
+[1.840s] writing entry points to rover_control.egg-info/entry_points.txt
+[1.840s] writing requirements to rover_control.egg-info/requires.txt
+[1.840s] writing top-level names to rover_control.egg-info/top_level.txt
+[1.840s] writing manifest file 'rover_control.egg-info/SOURCES.txt'
+[1.881s] reading manifest file 'rover_control.egg-info/SOURCES.txt'
+[1.881s] writing manifest file 'rover_control.egg-info/SOURCES.txt'
+[1.899s] running build_ext
+[1.899s] Creating /home/pawla/ros2_ws/install/rover_control/lib/python3.12/site-packages/rover-control.egg-link (link to .)
+[1.899s] Installing kinematyka_node script to /home/pawla/ros2_ws/install/rover_control/lib/rover_control
+[1.900s] 
+[1.900s] Installed /home/pawla/ros2_ws/build/rover_control
+[1.900s] running symlink_data
+[1.900s] creating /home/pawla/ros2_ws/install/rover_control/share/ament_index
+[1.900s] creating /home/pawla/ros2_ws/install/rover_control/share/ament_index/resource_index
+[1.901s] creating /home/pawla/ros2_ws/install/rover_control/share/ament_index/resource_index/packages
+[1.901s] symbolically linking /home/pawla/ros2_ws/build/rover_control/resource/rover_control -> /home/pawla/ros2_ws/install/rover_control/share/ament_index/resource_index/packages
+[1.902s] symbolically linking /home/pawla/ros2_ws/build/rover_control/package.xml -> /home/pawla/ros2_ws/install/rover_control/share/rover_control
+[1.956s] Invoked command in '/home/pawla/ros2_ws/build/rover_control' returned '0': PYTHONPATH=/home/pawla/ros2_ws/build/rover_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pawla/ros2_ws/install/rover_control/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/pawla/ros2_ws/build/rover_control/build --no-deps symlink_data

@@ -1,0 +1,22 @@
+running develop
+running egg_info
+creating rover_control.egg-info
+writing rover_control.egg-info/PKG-INFO
+writing dependency_links to rover_control.egg-info/dependency_links.txt
+writing entry points to rover_control.egg-info/entry_points.txt
+writing requirements to rover_control.egg-info/requires.txt
+writing top-level names to rover_control.egg-info/top_level.txt
+writing manifest file 'rover_control.egg-info/SOURCES.txt'
+reading manifest file 'rover_control.egg-info/SOURCES.txt'
+writing manifest file 'rover_control.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/pawla/ros2_ws/install/rover_control/lib/python3.12/site-packages/rover-control.egg-link (link to .)
+Installing kinematyka_node script to /home/pawla/ros2_ws/install/rover_control/lib/rover_control
+
+Installed /home/pawla/ros2_ws/build/rover_control
+running symlink_data
+creating /home/pawla/ros2_ws/install/rover_control/share/ament_index
+creating /home/pawla/ros2_ws/install/rover_control/share/ament_index/resource_index
+creating /home/pawla/ros2_ws/install/rover_control/share/ament_index/resource_index/packages
+symbolically linking /home/pawla/ros2_ws/build/rover_control/resource/rover_control -> /home/pawla/ros2_ws/install/rover_control/share/ament_index/resource_index/packages
+symbolically linking /home/pawla/ros2_ws/build/rover_control/package.xml -> /home/pawla/ros2_ws/install/rover_control/share/rover_control

@@ -1,0 +1,37 @@
+[0.015s] Invoking command in '/home/pawla/ros2_ws/src/build/Rover_description': /usr/bin/cmake /home/pawla/ros2_ws/src/Rover_description/Rover_description -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/pawla/ros2_ws/src/install/Rover_description
+[0.028s] [0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.028s]   Compatibility with CMake < 3.5 will be removed from a future version of
+[0.028s]   CMake.
+[0.028s] 
+[0.028s]   Update the VERSION argument <min> value or use a ...<max> suffix to tell
+[0.028s]   CMake that the project does not need compatibility with older versions.
+[0.028s] 
+[0.028s] [0m
+[0.047s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.398s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[0.623s] WARNING: Package name "Rover_description" does not follow the naming conventions. It should start with a lower case letter and only contain lower case letters, digits, underscores, and dashes.
+[0.637s] [33mCMake Warning (dev) at /opt/ros/jazzy/share/ament_cmake_core/cmake/core/ament_execute_extensions.cmake:41 (if):
+[0.637s]   Policy CMP0057 is not set: Support new IN_LIST if() operator.  Run "cmake
+[0.637s]   --help-policy CMP0057" for policy details.  Use the cmake_policy command to
+[0.637s]   set the policy and suppress this warning.
+[0.637s] 
+[0.638s]   IN_LIST will be interpreted as an operator when the policy is set to NEW.
+[0.638s]   Since the policy is not set the OLD behavior will be used.
+[0.638s] Call Stack (most recent call first):
+[0.638s]   /opt/ros/jazzy/share/ament_cmake_core/cmake/core/ament_package.cmake:66 (ament_execute_extensions)
+[0.638s]   CMakeLists.txt:103 (ament_package)
+[0.638s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[0.638s] [0m
+[0.638s] [31mCMake Error at /opt/ros/jazzy/share/ament_cmake_core/cmake/core/ament_execute_extensions.cmake:41 (if):
+[0.638s]   if given arguments:
+[0.638s] 
+[0.638s]     "ament_cmake_core" "IN_LIST" "_ARG_AMENT_EXECUTE_EXTENSIONS_EXCLUDE"
+[0.638s] 
+[0.638s]   Unknown arguments specified
+[0.638s] Call Stack (most recent call first):
+[0.638s]   /opt/ros/jazzy/share/ament_cmake_core/cmake/core/ament_package.cmake:66 (ament_execute_extensions)
+[0.638s]   CMakeLists.txt:103 (ament_package)
+[0.638s] 
+[0.638s] [0m
+[0.638s] -- Configuring incomplete, errors occurred!
+[0.648s] Invoked command in '/home/pawla/ros2_ws/src/build/Rover_description' returned '1': /usr/bin/cmake /home/pawla/ros2_ws/src/Rover_description/Rover_description -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/pawla/ros2_ws/src/install/Rover_description

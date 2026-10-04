@@ -1,0 +1,162 @@
+[0.281s] Invoking command in '/home/pawla/ros2_ws/build/rover_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/pawla/ros2_ws/install/rover_control:/opt/ros/jazzy /usr/bin/cmake /home/pawla/ros2_ws/src/rover_description/rover_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/pawla/ros2_ws/install/rover_description
+[0.493s] -- The C compiler identification is GNU 13.3.0
+[0.816s] -- The CXX compiler identification is GNU 13.3.0
+[1.051s] -- Detecting C compiler ABI info
+[1.225s] -- Detecting C compiler ABI info - done
+[1.232s] -- Check for working C compiler: /usr/bin/cc - skipped
+[1.234s] -- Detecting C compile features
+[1.235s] -- Detecting C compile features - done
+[1.274s] -- Detecting CXX compiler ABI info
+[1.465s] -- Detecting CXX compiler ABI info - done
+[1.471s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.472s] -- Detecting CXX compile features
+[1.472s] -- Detecting CXX compile features - done
+[1.520s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[1.701s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[1.795s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[1.987s] -- Configuring done (1.7s)
+[1.999s] -- Generating done (0.0s)
+[2.003s] -- Build files have been written to: /home/pawla/ros2_ws/build/rover_description
+[2.012s] Invoked command in '/home/pawla/ros2_ws/build/rover_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/pawla/ros2_ws/install/rover_control:/opt/ros/jazzy /usr/bin/cmake /home/pawla/ros2_ws/src/rover_description/rover_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/pawla/ros2_ws/install/rover_description
+[2.014s] Invoking command in '/home/pawla/ros2_ws/build/rover_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/pawla/ros2_ws/install/rover_control:/opt/ros/jazzy /usr/bin/cmake --build /home/pawla/ros2_ws/build/rover_description -- -j16 -l16
+[2.068s] Invoked command in '/home/pawla/ros2_ws/build/rover_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/pawla/ros2_ws/install/rover_control:/opt/ros/jazzy /usr/bin/cmake --build /home/pawla/ros2_ws/build/rover_description -- -j16 -l16
+[2.081s] Invoking command in '/home/pawla/ros2_ws/build/rover_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/pawla/ros2_ws/install/rover_control:/opt/ros/jazzy /usr/bin/cmake --install /home/pawla/ros2_ws/build/rover_description
+[2.093s] -- Install configuration: ""
+[2.093s] -- Execute custom install script
+[2.097s] [33mCMake Warning (dev) at ament_cmake_symlink_install/ament_cmake_symlink_install.cmake:67 (file):
+[2.098s]   Policy CMP0009 is not set: FILE GLOB_RECURSE calls should not follow
+[2.098s]   symlinks by default.  Run "cmake --help-policy CMP0009" for policy details.
+[2.098s]   Use the cmake_policy command to set the policy and suppress this warning.
+[2.098s] Call Stack (most recent call first):
+[2.098s]   ament_cmake_symlink_install/ament_cmake_symlink_install.cmake:319 (ament_cmake_symlink_install_directory)
+[2.098s]   cmake_install.cmake:46 (include)
+[2.098s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[2.098s] [0m
+[2.098s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/Rover.gazebo
+[2.111s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/Rover.trans
+[2.124s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/Rover.urdf
+[2.138s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/Rover.xacro
+[2.152s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/build/.built_by
+[2.163s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/build/COLCON_IGNORE
+[2.177s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/install/.colcon_install_layout
+[2.191s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/install/COLCON_IGNORE
+[2.203s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/install/_local_setup_util_ps1.py
+[2.218s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/install/_local_setup_util_sh.py
+[2.232s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/install/local_setup.bash
+[2.244s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/install/local_setup.ps1
+[2.257s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/install/local_setup.sh
+[2.271s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/install/local_setup.zsh
+[2.285s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/install/setup.bash
+[2.296s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/install/setup.ps1
+[2.310s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/install/setup.sh
+[2.324s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/install/setup.zsh
+[2.337s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/joint_map.py
+[2.349s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/COLCON_IGNORE
+[2.365s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-02_22-14-06/events.log
+[2.376s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-02_22-14-06/logger_all.log
+[2.391s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-02_22-14-24/events.log
+[2.404s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-02_22-14-24/logger_all.log
+[2.417s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-02_22-14-44/events.log
+[2.429s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-02_22-14-44/logger_all.log
+[2.447s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-03_12-18-24/events.log
+[2.464s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-03_12-18-24/logger_all.log
+[2.478s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-03_19-39-52/events.log
+[2.492s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-03_19-39-52/logger_all.log
+[2.504s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-03_19-40-21/events.log
+[2.517s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-03_19-40-21/logger_all.log
+[2.529s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-04_15-51-29/events.log
+[2.542s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-04_15-51-29/logger_all.log
+[2.557s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-04_15-51-38/events.log
+[2.569s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-04_15-51-38/logger_all.log
+[2.583s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-04_16-21-28/events.log
+[2.597s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-04_16-21-28/logger_all.log
+[2.610s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-04_16-24-06/events.log
+[2.623s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-04_16-24-06/logger_all.log
+[2.638s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-04_16-26-04/events.log
+[2.650s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-04_16-26-04/logger_all.log
+[2.664s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-15_17-17-09/events.log
+[2.677s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-15_17-17-09/logger_all.log
+[2.692s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-17_01-01-34/events.log
+[2.705s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/build_2026-09-17_01-01-34/logger_all.log
+[2.718s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/latest/events.log
+[2.732s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/latest/logger_all.log
+[2.746s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/latest_build/events.log
+[2.760s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/log/latest_build/logger_all.log
+[2.774s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/materials.xacro
+[2.790s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/Part23_v1_1.stl
+[2.803s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/Part23_v1__10__1.stl
+[2.817s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/Part23_v1__11__1.stl
+[2.831s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/Part23_v1__1__1.stl
+[2.843s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/Part23_v1__2__1.stl
+[2.856s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/Part23_v1__3__1.stl
+[2.869s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/Part23_v1__4__1.stl
+[2.882s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/Part23_v1__5__1.stl
+[2.894s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/Part23_v1__6__1.stl
+[2.906s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/Part23_v1__7__1.stl
+[2.918s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/Part23_v1__8__1.stl
+[2.931s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/Part23_v1__9__1.stl
+[2.944s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/base_link.stl
+[2.957s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/basket_v1_1.stl
+[2.970s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/basket_v1__1__1.stl
+[2.983s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/basketback_v1_1.stl
+[2.996s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/basketback_v1__1__1.stl
+[3.008s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/basketlewy_v1_1.stl
+[3.023s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/basketlewy_v1__1__1.stl
+[3.037s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/box2_v1_1.stl
+[3.050s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/boxv1_v1_1.stl
+[3.065s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/felga_v1_1.stl
+[3.079s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/felga_v1__1__1.stl
+[3.094s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/felga_v1__2__1.stl
+[3.111s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/felga_v1__3__1.stl
+[3.127s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/felga_v1__4__1.stl
+[3.143s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/felga_v1__5__1.stl
+[3.158s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/filar_v1_1.stl
+[3.171s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/filar_v1__1__1.stl
+[3.184s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/filar_v1__2__1.stl
+[3.196s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/filar_v1__3__1.stl
+[3.209s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/handler_backv2proba_v1_1.stl
+[3.225s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/opona_nowa__1__v1_1.stl
+[3.238s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/opona_nowa__1__v1__1__1.stl
+[3.251s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/opona_nowa__1__v1__2__1.stl
+[3.263s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/opona_nowa__1__v1__3__1.stl
+[3.277s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/opona_nowa__1__v1__4__1.stl
+[3.289s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/opona_nowa__1__v1__5__1.stl
+[3.302s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/pret_handler_v3proba_v1_1.stl
+[3.313s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/pret_handler_v3proba_v1__1__1.stl
+[3.331s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/sciana2_v1_1.stl
+[3.344s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/sciana2_v1__1__1.stl
+[3.357s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/sciana_v1_1.stl
+[3.370s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/sciana_v1__1__1.stl
+[3.385s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/wahaczv2_v1_1.stl
+[3.398s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/wahaczv2_v1__1__1.stl
+[3.410s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/wahaczv2_v1__2__1.stl
+[3.427s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/wahaczv2_v1__3__1.stl
+[3.439s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/wahaczv2_v1__4__1.stl
+[3.452s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/wahaczv2_v1__5__1.stl
+[3.467s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/launch/controller.launch
+[3.480s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/launch/controller.yaml
+[3.493s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/launch/display.launch
+[3.505s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/launch/display.launch.py
+[3.518s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/launch/gazebo.launch
+[3.531s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/launch/gazebo.launch.py
+[3.545s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/launch/urdf.rviz
+[3.559s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/config/bridge_parameters.yaml
+[3.571s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/config/controllers.yaml
+[3.582s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/config/kinematics.yaml
+[3.592s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/package.xml
+[3.609s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/ament_index/resource_index/package_run_dependencies/rover_description
+[3.625s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/ament_index/resource_index/parent_prefix_path/rover_description
+[3.639s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/environment/ament_prefix_path.sh
+[3.652s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/environment/ament_prefix_path.dsv
+[3.663s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/environment/path.sh
+[3.675s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/environment/path.dsv
+[3.685s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/local_setup.bash
+[3.697s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/local_setup.sh
+[3.711s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/local_setup.zsh
+[3.725s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/local_setup.dsv
+[3.738s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/package.dsv
+[3.750s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/ament_index/resource_index/packages/rover_description
+[3.764s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/cmake/rover_descriptionConfig.cmake
+[3.778s] -- Symlinking: /home/pawla/ros2_ws/install/rover_description/share/rover_description/cmake/rover_descriptionConfig-version.cmake
+[3.790s] -- Up-to-date symlink: /home/pawla/ros2_ws/install/rover_description/share/rover_description/package.xml
+[3.793s] Invoked command in '/home/pawla/ros2_ws/build/rover_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/pawla/ros2_ws/install/rover_control:/opt/ros/jazzy /usr/bin/cmake --install /home/pawla/ros2_ws/build/rover_description

@@ -1,0 +1,1 @@
+[0mCMake Error: The source "/home/pawla/ros2_ws/src/rover_description/rover_description/CMakeLists.txt" does not match the source "/home/pawla/ros2_ws/src/rover_description/Rover_description/CMakeLists.txt" used to generate cache.  Re-run cmake with a different source directory.[0m

@@ -1,0 +1,40 @@
+[0.024s] Invoking command in '/home/pawla/ros2_ws/src/build/Rover_description': /usr/bin/cmake /home/pawla/ros2_ws/src/Rover_description/Rover_description -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/pawla/ros2_ws/src/install/Rover_description
+[0.102s] [0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.102s]   Compatibility with CMake < 3.5 will be removed from a future version of
+[0.102s]   CMake.
+[0.102s] 
+[0.102s]   Update the VERSION argument <min> value or use a ...<max> suffix to tell
+[0.102s]   CMake that the project does not need compatibility with older versions.
+[0.102s] 
+[0.102s] [0m
+[0.285s] -- The C compiler identification is GNU 13.3.0
+[0.565s] -- The CXX compiler identification is GNU 13.3.0
+[0.759s] -- Detecting C compiler ABI info
+[0.925s] -- Detecting C compiler ABI info - done
+[0.932s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.933s] -- Detecting C compile features
+[0.934s] -- Detecting C compile features - done
+[0.976s] -- Detecting CXX compiler ABI info
+[1.146s] -- Detecting CXX compiler ABI info - done
+[1.153s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.153s] -- Detecting CXX compile features
+[1.153s] -- Detecting CXX compile features - done
+[1.546s] [31mCMake Error at CMakeLists.txt:10 (find_package):
+[1.546s]   By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has
+[1.547s]   asked CMake to find a package configuration file provided by "catkin", but
+[1.547s]   CMake did not find one.
+[1.547s] 
+[1.547s]   Could not find a package configuration file provided by "catkin" with any
+[1.547s]   of the following names:
+[1.547s] 
+[1.547s]     catkinConfig.cmake
+[1.547s]     catkin-config.cmake
+[1.547s] 
+[1.547s]   Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set
+[1.548s]   "catkin_DIR" to a directory containing one of the above files.  If "catkin"
+[1.548s]   provides a separate development package or SDK, be sure it has been
+[1.548s]   installed.
+[1.548s] 
+[1.548s] [0m
+[1.548s] -- Configuring incomplete, errors occurred!
+[1.551s] Invoked command in '/home/pawla/ros2_ws/src/build/Rover_description' returned '1': /usr/bin/cmake /home/pawla/ros2_ws/src/Rover_description/Rover_description -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/pawla/ros2_ws/src/install/Rover_description

@@ -1,0 +1,2 @@
+Invoking command in '/home/pawla/ros2_ws/src/build/rover_description': /usr/bin/cmake /home/pawla/ros2_ws/src/rover_description/rover_description -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/pawla/ros2_ws/src/install/rover_description
+Invoked command in '/home/pawla/ros2_ws/src/build/rover_description' returned '1': /usr/bin/cmake /home/pawla/ros2_ws/src/rover_description/rover_description -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/pawla/ros2_ws/src/install/rover_description

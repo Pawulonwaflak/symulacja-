@@ -1,0 +1,1 @@
+/home/pawla/ros2_ws/src/rover_description/rover_description/urdf/install/_local_setup_util_ps1.py

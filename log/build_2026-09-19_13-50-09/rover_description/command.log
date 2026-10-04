@@ -1,0 +1,4 @@
+Invoking command in '/home/pawla/ros2_ws/build/rover_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/pawla/ros2_ws/install/rover_control:/opt/ros/jazzy /usr/bin/cmake --build /home/pawla/ros2_ws/build/rover_description -- -j16 -l16
+Invoked command in '/home/pawla/ros2_ws/build/rover_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/pawla/ros2_ws/install/rover_control:/opt/ros/jazzy /usr/bin/cmake --build /home/pawla/ros2_ws/build/rover_description -- -j16 -l16
+Invoking command in '/home/pawla/ros2_ws/build/rover_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/pawla/ros2_ws/install/rover_control:/opt/ros/jazzy /usr/bin/cmake --install /home/pawla/ros2_ws/build/rover_description
+Invoked command in '/home/pawla/ros2_ws/build/rover_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/pawla/ros2_ws/install/rover_control:/opt/ros/jazzy /usr/bin/cmake --install /home/pawla/ros2_ws/build/rover_description
