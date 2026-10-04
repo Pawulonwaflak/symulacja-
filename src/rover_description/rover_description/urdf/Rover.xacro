@@ -1,0 +1,1498 @@
+<?xml version="1.0" ?>
+<robot name="Rover" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="sim" default="true"/>
+  <xacro:arg name="controllers_file"
+             default="$(find rover_description)/config/controllers.yaml"/>
+
+<xacro:include filename="$(find rover_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find rover_description)/urdf/Rover.trans" />
+<xacro:include filename="$(find rover_description)/urdf/Rover.gazebo" />
+
+<link name="base_footprint"/>
+<joint name="base_footprint_joint" type="fixed">
+  <parent link="base_footprint"/>
+  <child link="base_link"/>
+  <origin xyz="0 0 0.27" rpy="0 0 -1.5708"/> 
+</joint>
+
+<link name="base_link">
+  <inertial>
+    <origin xyz="-3.3708776575841558e-15 0.00363761455711936 0.007362716562946554" rpy="0 0 0"/>
+    <mass value="0.3844784894849203"/>
+    <inertia ixx="0.002117" iyy="0.001" izz="0.002775" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0.05 0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.375 0.52 0.25"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="pret_handler_v3proba_v1_1">
+  <inertial>
+    <origin xyz="-0.01900000000000006 -4.143233196599039e-07 -0.005389574608387276" rpy="0 0 0"/>
+    <mass value="0.11371542799884354"/>
+    <inertia ixx="0.000221" iyy="0.001" izz="0.001" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.094 0.05475 -0.033612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/pret_handler_v3proba_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.094 0.05475 -0.033612" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.236 0.035 0.0585"/>
+    </geometry>
+  </collision> -->
+</link> 
+
+<link name="pret_handler_v3proba_v1__1__1">
+  <inertial>
+    <origin xyz="0.01899999999999999 -4.143232613593173e-07 -0.005389574608387286" rpy="0 0 0"/>
+    <mass value="0.11371542799884354"/>
+    <inertia ixx="0.000221" iyy="0.001" izz="0.001" ixy="-0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.094 0.05475 -0.033612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/pret_handler_v3proba_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="-0.094 0.05475 -0.033612" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.236 0.035 0.0585"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="handler_backv2proba_v1_1">
+  <inertial>
+    <origin xyz="-7.126086628479645e-05 0.04736205845248642 -0.005801507049937215" rpy="0 0 0"/>
+    <mass value="0.20973987708628855"/>
+    <inertia ixx="0.001" iyy="0.000708" izz="0.000907" ixy="0.0" iyz="2e-06" ixz="1e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.0 -0.155316 -0.033612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/handler_backv2proba_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.0 -0.155316 -0.033612" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.31 0.104 0.035"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="basketback_v1_1">
+  <inertial>
+    <origin xyz="-0.026262275115844294 -4.143231134845493e-07 -0.0014781940855226675" rpy="0 0 0"/>
+    <mass value="0.05211230478294979"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.100032 -0.242316 -0.032068" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/basketback_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.100032 -0.242316 -0.032068" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/basketback_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="Part23_v1_1">
+  <inertial>
+    <origin xyz="0.131396858909605 0.01402351974986385 -0.21656709357141518" rpy="0 0 0"/>
+    <mass value="0.042580149813532274"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.259143 -0.22803 -0.247532" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.259143 -0.22803 -0.247532" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="wahaczv2_v1_1">
+  <inertial>
+    <origin xyz="-0.023176555814518024 -4.1320900287522555e-07 -0.04511955865856667" rpy="0 0 0"/>
+    <mass value="0.07043737243020472"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="-0.0" ixz="-8e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.141705 -0.242206 -0.012202" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/wahaczv2_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.141705 -0.242206 -0.012202" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/wahaczv2_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="Part23_v1__1__1">
+  <inertial>
+    <origin xyz="0.017838722629285486 -0.00015248025011649347 -0.01105791490528938" rpy="0 0 0"/>
+    <mass value="0.042580149813532274"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.160676 -0.242206 0.042537" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.160676 -0.242206 0.042537" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="felga_v1_1">
+  <inertial>
+    <origin xyz="-0.012459222389996541 -4.1432309669242606e-07 0.0001754141402649373" rpy="0 0 0"/>
+    <mass value="0.1074921153953226"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="0.0" ixz="0.001"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.124074 -0.242206 0.067554" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/felga_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.124074 -0.242206 0.067554" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/felga_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="basketback_v1__1__1">
+  <inertial>
+    <origin xyz="0.026034774004740982 0.006999585676523312 -0.014715061794331689" rpy="0 0 0"/>
+    <mass value="0.05211230478294979"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.100093 -0.235316 -0.039506" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/basketback_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="-0.100093 -0.235316 -0.039506" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/basketback_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="Part23_v1__2__1">
+  <inertial>
+    <origin xyz="0.1283716107326754 -0.008031348396453863 -0.23724592322337062" rpy="0 0 0"/>
+    <mass value="0.042580149813532274"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.000782 -0.250609 -0.262371" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__2__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.000782 -0.250609 -0.262371" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__2__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="wahaczv2_v1__1__1">
+  <inertial>
+    <origin xyz="0.021899536448331536 -4.1543758552697874e-07 -0.04575306339461184" rpy="0 0 0"/>
+    <mass value="0.07043737243020472"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="0.0" ixz="0.001"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.141015 -0.242426 -0.005977" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/wahaczv2_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="-0.141015 -0.242426 -0.005977" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.03 0.029 0.095"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="Part23_v1__3__1">
+  <inertial>
+    <origin xyz="-0.01650871074358476 -0.010098348396470613 -0.018826101919743238" rpy="0 0 0"/>
+    <mass value="0.042580149813532274"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.156069 -0.252816 0.040099" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__3__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="-0.156069 -0.252816 0.040099" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__3__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="felga_v1__1__1">
+  <inertial>
+    <origin xyz="0.012459250006080766 -4.143234904607773e-07 -0.00017511100317847694" rpy="0 0 0"/>
+    <mass value="0.1074921153953226"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="0.0" ixz="0.001"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.120412 -0.242566 0.072351" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/felga_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="-0.120412 -0.242566 0.072351" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/felga_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="basketlewy_v1_1">
+  <inertial>
+    <origin xyz="0.006583911389326097 0.019139032837798216 -0.014290024911945354" rpy="0 0 0"/>
+    <mass value="0.05235016883934813"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.12 -0.025272 -0.040912" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/basketlewy_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="-0.12 -0.025272 -0.040912" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/basketlewy_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="basketlewy_v1__1__1">
+  <inertial>
+    <origin xyz="-0.006583911389325181 -0.019139861484379406 -0.014290024911945896" rpy="0 0 0"/>
+    <mass value="0.05235016883934813"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.12 0.134772 -0.040912" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/basketlewy_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.12 0.134772 -0.040912" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/basketlewy_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="basket_v1_1">
+  <inertial>
+    <origin xyz="-0.0225178401248569 0.019120872680852132 -0.014281400761913844" rpy="0 0 0"/>
+    <mass value="0.05241217155974444"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.106 -0.025272 -0.040912" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/basket_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.106 -0.025272 -0.040912" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/basket_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="basket_v1__1__1">
+  <inertial>
+    <origin xyz="0.0225178401248549 -0.019121701327435486 -0.014281400761914486" rpy="0 0 0"/>
+    <mass value="0.05241217155974444"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.106 0.134772 -0.040912" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/basket_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="-0.106 0.134772 -0.040912" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/basket_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="Part23_v1__4__1">
+  <inertial>
+    <origin xyz="0.13253630698400776 -0.0099003483962612 -0.03737455851107026" rpy="0 0 0"/>
+    <mass value="0.042580149813532274"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.00434 -0.054434 -0.064294" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__4__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.00434 -0.054434 -0.064294" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__4__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="Part23_v1__5__1">
+  <inertial>
+    <origin xyz="0.13448630698400552 -0.009900348396264053 0.16066944148892914" rpy="0 0 0"/>
+    <mass value="0.042580149813532274"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.00434 0.14361 0.13375" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__5__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.00434 0.14361 0.13375" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__5__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="Part23_v1__6__1">
+  <inertial>
+    <origin xyz="0.13659369301599233 0.009900519749680398 -0.016654558511070176" rpy="0 0 0"/>
+    <mass value="0.042580149813532274"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.26674 -0.034109 -0.043574" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__6__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.26674 -0.034109 -0.043574" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__6__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="Part23_v1__7__1">
+  <inertial>
+    <origin xyz="0.13464369301599313 0.009900519749679898 0.1813894414889293" rpy="0 0 0"/>
+    <mass value="0.042580149813532274"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.26284 0.163935 0.15447" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__7__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.26284 0.163935 0.15447" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__7__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="wahaczv2_v1__5__1">
+  <inertial>
+    <origin xyz="-0.02254005725766728 -4.1320923734045056e-07 -0.045440723962034996" rpy="0 0 0"/>
+    <mass value="0.07043737243020472"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="-0.0" ixz="-0.001"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.14384 -0.044162 -0.007962" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/wahaczv2_v1__5__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.14384 -0.044162 -0.007962" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/wahaczv2_v1__5__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="wahaczv2_v1__4__1">
+  <inertial>
+    <origin xyz="-0.02254005725766639 -4.132092392417075e-07 -0.045440723962035495" rpy="0 0 0"/>
+    <mass value="0.07043737243020472"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="-0.0" ixz="-0.001"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.14189 0.153882 -0.007962" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/wahaczv2_v1__4__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.14189 0.153882 -0.007962" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.03 0.029 0.095"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="wahaczv2_v1__3__1">
+  <inertial>
+    <origin xyz="0.022540057257667223 -4.15437343324887e-07 -0.04544072396203483" rpy="0 0 0"/>
+    <mass value="0.07043737243020472"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="0.0" ixz="0.001"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.14189 -0.044382 -0.007962" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/wahaczv2_v1__3__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="-0.14189 -0.044382 -0.007962" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.03 0.029 0.095"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="wahaczv2_v1__2__1">
+  <inertial>
+    <origin xyz="0.022540057257665003 -4.1543734999316406e-07 -0.045440723962035454" rpy="0 0 0"/>
+    <mass value="0.07043737243020472"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="0.0" ixz="0.001"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.14384 0.153662 -0.007962" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/wahaczv2_v1__2__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="-0.14384 0.153662 -0.007962" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.03 0.029 0.095"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="Part23_v1__11__1">
+  <inertial>
+    <origin xyz="-0.016242704548349862 -0.010098348396260781 -0.019056160946728212" rpy="0 0 0"/>
+    <mass value="0.042580149813532274"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.15759 -0.054772 0.037898" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__11__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="-0.15759 -0.054772 0.037898" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__11__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="Part23_v1__10__1">
+  <inertial>
+    <origin xyz="-0.01624270454835136 -0.010098348396266693 -0.01905616094672881" rpy="0 0 0"/>
+    <mass value="0.042580149813532274"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.15954 0.143272 0.037898" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__10__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="-0.15954 0.143272 0.037898" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__10__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="Part23_v1__9__1">
+  <inertial>
+    <origin xyz="0.01624270454835061 -0.01040248025032009 -0.01905616094672897" rpy="0 0 0"/>
+    <mass value="0.042580149813532274"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.15759 0.143492 0.037898" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__9__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.15759 0.143492 0.037898" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__9__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="Part23_v1__8__1">
+  <inertial>
+    <origin xyz="0.01624270454834964 0.01009751974968097 -0.01905616094672854" rpy="0 0 0"/>
+    <mass value="0.042580149813532274"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.15954 -0.033772 0.037898" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__8__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.15954 -0.033772 0.037898" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/Part23_v1__8__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="felga_v1__5__1">
+  <inertial>
+    <origin xyz="0.01246010638529002 -4.1432328989204903e-07 1.4603728190620835e-07" rpy="0 0 0"/>
+    <mass value="0.1074921153953226"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.12239 -0.044522 0.070648" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/felga_v1__5__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="-0.12239 -0.044522 0.070648" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/felga_v1__5__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="felga_v1__4__1">
+  <inertial>
+    <origin xyz="0.012460106385288439 -4.1432329578316995e-07 1.460372812817079e-07" rpy="0 0 0"/>
+    <mass value="0.1074921153953226"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.12434 0.153522 0.070648" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/felga_v1__4__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="-0.12434 0.153522 0.070648" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/felga_v1__4__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="felga_v1__3__1">
+  <inertial>
+    <origin xyz="-0.012460106385290104 -4.1432328963530995e-07 1.4603727631345986e-07" rpy="0 0 0"/>
+    <mass value="0.1074921153953226"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.12434 -0.044022 0.070648" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/felga_v1__3__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.12434 -0.044022 0.070648" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/felga_v1__3__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="felga_v1__2__1">
+  <inertial>
+    <origin xyz="-0.012460106385289327 -4.1432329053736616e-07 1.4603727589712623e-07" rpy="0 0 0"/>
+    <mass value="0.1074921153953226"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.12239 0.153742 0.070648" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/felga_v1__2__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.12239 0.153742 0.070648" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/felga_v1__2__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="opona_nowa__1__v1__5__1">
+  <inertial>
+    <origin xyz="-0.029999722516305574 -3.70086011336479e-07 -9.23766957511285e-08" rpy="0 0 0"/>
+    <mass value="0.08701400545258438"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.11239 0.153742 0.070648" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/opona_nowa__1__v1__5__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+  <origin xyz="-0.03 0 0" rpy="0 1.5708 0"/>
+  <geometry>
+    <cylinder radius="0.063" length="0.06"/>
+  </geometry>
+</collision>
+</link>
+
+<link name="opona_nowa__1__v1__4__1">
+  <inertial>
+    <origin xyz="-0.029999722516306365 -3.7008601046911727e-07 -9.237669539030602e-08" rpy="0 0 0"/>
+    <mass value="0.08701400545258438"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.11434 -0.044022 0.070648" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/opona_nowa__1__v1__4__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+    <collision>
+  <origin xyz="-0.03 0 0" rpy="0 1.5708 0"/>
+  <geometry>
+    <cylinder radius="0.063" length="0.06"/>
+  </geometry>
+</collision>
+</link>
+
+<link name="opona_nowa__1__v1__3__1">
+  <inertial>
+    <origin xyz="-0.02999709692518672 -3.700858079436209e-07 0.000421160074384877" rpy="0 0 0"/>
+    <mass value="0.08701400545258438"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-0.0" ixz="-2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.114075 -0.242206 0.067694" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/opona_nowa__1__v1__3__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+    <collision>
+  <origin xyz="-0.03 0 0" rpy="0 1.5708 0"/>
+  <geometry>
+    <cylinder radius="0.063" length="0.06"/>
+  </geometry>
+</collision>
+</link>
+
+<link name="opona_nowa__1__v1__2__1">
+  <inertial>
+    <origin xyz="0.030000277483693272 -3.7008601744270564e-07 -9.237669559847284e-08" rpy="0 0 0"/>
+    <mass value="0.08701400545258438"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.11434 0.153522 0.070648" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/opona_nowa__1__v1__2__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+    <collision>
+  <origin xyz="0.03 0 0" rpy="0 1.5708 0"/>
+  <geometry>
+    <cylinder radius="0.063" length="0.06"/>
+  </geometry>
+</collision>
+</link>
+
+<link name="opona_nowa__1__v1_1">
+  <inertial>
+    <origin xyz="0.03000027748369484 -3.700860115446458e-07 -9.23766949600946e-08" rpy="0 0 0"/>
+    <mass value="0.08701400545258438"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.11239 -0.044522 0.070648" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/opona_nowa__1__v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+    <collision>
+  <origin xyz="0.03 0 0" rpy="0 1.5708 0"/>
+  <geometry>
+    <cylinder radius="0.063" length="0.06"/>
+  </geometry>
+</collision>
+</link>
+
+<link name="opona_nowa__1__v1__1__1">
+  <inertial>
+    <origin xyz="0.029997672751059537 -3.700862229172319e-07 -0.0004223415193064656" rpy="0 0 0"/>
+    <mass value="0.08701400545258438"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-0.0" ixz="-2e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.110413 -0.242566 0.07221" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/opona_nowa__1__v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+
+    <collision>
+  <origin xyz="0.03 0 0" rpy="0 1.5708 0"/>
+  <geometry>
+    <cylinder radius="0.063" length="0.06"/>
+  </geometry>
+</collision>
+</link>
+
+<link name="boxv1_v1_1">
+  <inertial>
+    <origin xyz="0.00600000000000139 -0.03310363458616841 0.006237008926631957" rpy="0 0 0"/>
+    <mass value="0.12152399323387689"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-7e-06" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.006 -0.120316 -0.018612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/boxv1_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.006 -0.120316 -0.018612" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.225 0.188 0.14"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="box2_v1_1">
+  <inertial>
+    <origin xyz="1.359967449736933e-16 -0.06610209152358543 0.003604632207355171" rpy="0 0 0"/>
+    <mass value="0.13236852021866508"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="8e-06" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.0 -0.025316 -0.021112" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/box2_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.0 -0.025316 -0.021112" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/box2_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="filar_v1__3__1">
+  <inertial>
+    <origin xyz="0.00023394979189614307 -0.00023436411517321898 0.06677084257229296" rpy="0 0 0"/>
+    <mass value="0.030936283154348546"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.064 0.084684 -0.023612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/filar_v1__3__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="-0.064 0.084684 -0.023612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/filar_v1__3__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="filar_v1__1__1">
+  <inertial>
+    <origin xyz="-0.00023394979188277876 -0.0002343641151873327 0.0667708425722929" rpy="0 0 0"/>
+    <mass value="0.030936283154348546"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.064 0.084684 -0.023612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/filar_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.064 0.084684 -0.023612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/filar_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="filar_v1__2__1">
+  <inertial>
+    <origin xyz="0.00023394979188197385 0.00023353546860596652 0.06677084257229354" rpy="0 0 0"/>
+    <mass value="0.030936283154348546"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.064 -0.125316 -0.023612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/filar_v1__2__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="-0.064 -0.125316 -0.023612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/filar_v1__2__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="sciana_v1__1__1">
+  <inertial>
+    <origin xyz="-3.2911636077995706e-16 -4.143232907316552e-07 0.0639570019592007" rpy="0 0 0"/>
+    <mass value="0.13690544479999978"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.0 -0.130316 -0.023612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/sciana_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.0 -0.130316 -0.023612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/sciana_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="filar_v1_1">
+  <inertial>
+    <origin xyz="-0.00023394979189701737 0.0002335354685914226 0.06677084257229354" rpy="0 0 0"/>
+    <mass value="0.030936283154348546"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.064 -0.125316 -0.023612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/filar_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.064 -0.125316 -0.023612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/filar_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="sciana_v1_1">
+  <inertial>
+    <origin xyz="-6.934558420053058e-16 -4.1432329089818865e-07 0.0639570019592001" rpy="0 0 0"/>
+    <mass value="0.13690544479999978"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.0 0.089684 -0.023612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/sciana_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.0 0.089684 -0.023612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/sciana_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="sciana2_v1__1__1">
+  <inertial>
+    <origin xyz="1.3877787807814457e-17 -0.010022181443402858 0.06391392865122841" rpy="0 0 0"/>
+    <mass value="0.2337470447999994"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.069 -0.030316 -0.023612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/sciana2_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="0.069 -0.030316 -0.023612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/sciana2_v1__1__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<link name="sciana2_v1_1">
+  <inertial>
+    <origin xyz="2.3592239273284576e-16 -0.01002218144340284 0.06391392865122833" rpy="0 0 0"/>
+    <mass value="0.2337470447999994"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.069 -0.030316 -0.023612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/sciana2_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <!-- <collision>
+    <origin xyz="-0.069 -0.030316 -0.023612" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://rover_description/meshes/sciana2_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision> -->
+</link>
+
+<joint name="Revolute 1" type="continuous">
+  <origin xyz="-0.094 -0.05475 0.033612" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="pret_handler_v3proba_v1_1"/>
+  <axis xyz="1.0 0.0 0.0"/>
+  <dynamics damping="0.1" friction="0.1"/>
+</joint>
+
+<joint name="Revolute 2" type="continuous">
+  <origin xyz="0.094 -0.05475 0.033612" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="pret_handler_v3proba_v1__1__1"/>
+  <axis xyz="-1.0 -0.0 0.0"/>
+  <dynamics damping="0.1" friction="0.1"/>
+</joint>
+
+<joint name="Revolute 3" type="continuous">
+  <origin xyz="0.0 0.155316 0.033612" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="handler_backv2proba_v1_1"/>
+  <axis xyz="0.0 -1.0 -0.0"/>
+  <dynamics damping="0.1" friction="0.1"/>
+</joint>
+
+<joint name="Rigid 13" type="fixed">
+  <origin xyz="-0.100032 0.087 -0.001544" rpy="0 0 0"/>
+  <parent link="handler_backv2proba_v1_1"/>
+  <child link="basketback_v1_1"/>
+</joint>
+
+<joint name="Rigid 14" type="fixed">
+  <origin xyz="-0.159111 -0.014286 0.215464" rpy="0 0 0"/>
+  <parent link="basketback_v1_1"/>
+  <child link="Part23_v1_1"/>
+</joint>
+<!-- PRZOD LEWY -->
+<joint name="fl_steer_joint" type="revolute">
+  <origin xyz="0.117438 0.014176 -0.23533" rpy="0 0 0"/>
+  <parent link="Part23_v1_1"/>
+  <child link="wahaczv2_v1_1"/>
+  <axis xyz="-0.014057 0.0 -0.999901"/>
+  <dynamics damping="0.1" friction="0.1"/>
+  <limit effort="100" lower="-0.785398" upper="0.785398" velocity="10"/>
+</joint>
+
+<joint name="Rigid 16" type="fixed">
+  <origin xyz="-0.018971 0.0 -0.054739" rpy="0 0 0"/>
+  <parent link="wahaczv2_v1_1"/>
+  <child link="Part23_v1__1__1"/>
+</joint>
+<!-- PRZOD LEWY -->
+<joint name="fl_wheel_joint" type="continuous"> 
+  <origin xyz="0.036602 0.0 -0.025017" rpy="0 0 0"/>
+  <parent link="Part23_v1__1__1"/>
+  <child link="felga_v1_1"/>
+  <axis xyz="0.999901 -0.0 -0.014057"/>
+  <dynamics damping="0.1" friction="0.1"/>
+</joint>
+
+<joint name="Rigid 18" type="fixed">
+  <origin xyz="0.100093 0.08 0.005894" rpy="0 0 0"/>
+  <parent link="handler_backv2proba_v1_1"/>
+  <child link="basketback_v1__1__1"/>
+</joint>
+
+<joint name="Rigid 19" type="fixed">
+  <origin xyz="-0.100875 0.015293 0.222865" rpy="0 0 0"/>
+  <parent link="basketback_v1__1__1"/>
+  <child link="Part23_v1__2__1"/>
+</joint>
+<!-- PRZOD PRAWY -->
+<joint name="fr_steer_joint" type="revolute">
+  <origin xyz="0.141797 -0.008183 -0.256394" rpy="0 0 0"/>
+  <parent link="Part23_v1__2__1"/>
+  <child link="wahaczv2_v1__1__1"/>
+  <axis xyz="-0.014057 0.0 -0.999901"/>
+  <dynamics damping="0.1" friction="0.1"/>
+  <limit effort="100" lower="-0.785398" upper="0.785398" velocity="10"/>
+</joint>
+
+<joint name="Rigid 21" type="fixed">
+  <origin xyz="0.015054 0.01039 -0.046076" rpy="0 0 0"/>
+  <parent link="wahaczv2_v1__1__1"/>
+  <child link="Part23_v1__3__1"/>
+</joint>
+ <!-- PRZOD PRAWY -->
+<joint name="fr_wheel_joint" type="continuous">
+  <origin xyz="-0.035657 -0.01025 -0.032252" rpy="0 0 0"/>
+  <parent link="Part23_v1__3__1"/>
+  <child link="felga_v1__1__1"/>
+  <axis xyz="-0.999901 0.0 0.014057"/>
+  <dynamics damping="0.1" friction="0.1"/>
+</joint>
+
+<joint name="Rigid 23" type="fixed">
+  <origin xyz="0.026 0.080022 0.0073" rpy="0 0 0"/>
+  <parent link="pret_handler_v3proba_v1__1__1"/>
+  <child link="basketlewy_v1_1"/>
+</joint>
+
+<joint name="Rigid 24" type="fixed">
+  <origin xyz="-0.026 -0.080022 0.0073" rpy="0 0 0"/>
+  <parent link="pret_handler_v3proba_v1_1"/>
+  <child link="basketlewy_v1__1__1"/>
+</joint>
+
+<joint name="Rigid 25" type="fixed">
+  <origin xyz="-0.012 0.080022 0.0073" rpy="0 0 0"/>
+  <parent link="pret_handler_v3proba_v1_1"/>
+  <child link="basket_v1_1"/>
+</joint>
+
+<joint name="Rigid 26" type="fixed">
+  <origin xyz="0.012 -0.080022 0.0073" rpy="0 0 0"/>
+  <parent link="pret_handler_v3proba_v1__1__1"/>
+  <child link="basket_v1__1__1"/>
+</joint>
+
+<joint name="Rigid 27" type="fixed">
+  <origin xyz="-0.12434 0.029162 0.023382" rpy="0 0 0"/>
+  <parent link="basketlewy_v1_1"/>
+  <child link="Part23_v1__4__1"/>
+</joint>
+
+<joint name="Rigid 28" type="fixed">
+  <origin xyz="-0.11034 -0.008838 -0.174662" rpy="0 0 0"/>
+  <parent link="basket_v1__1__1"/>
+  <child link="Part23_v1__5__1"/>
+</joint>
+
+<joint name="Rigid 29" type="fixed">
+  <origin xyz="-0.16074 0.008837 0.002662" rpy="0 0 0"/>
+  <parent link="basket_v1_1"/>
+  <child link="Part23_v1__6__1"/>
+</joint>
+
+<joint name="Rigid 30" type="fixed">
+  <origin xyz="-0.14284 -0.029163 -0.195382" rpy="0 0 0"/>
+  <parent link="basketlewy_v1__1__1"/>
+  <child link="Part23_v1__7__1"/>
+</joint>
+ <!-- SRODEK LEWY -->
+<joint name="ml_steer_joint" type="revolute">
+  <origin xyz="0.1229 0.010053 -0.035612" rpy="0 0 0"/>
+  <parent link="Part23_v1__6__1"/>
+  <child link="wahaczv2_v1__5__1"/>
+  <axis xyz="-0.0 0.0 -1.0"/>
+  <dynamics damping="0.1" friction="0.1"/>
+  <limit effort="100" lower="-0.785398" upper="0.785398" velocity="10"/>
+</joint>
+
+<!-- TYL LEWY -->
+<joint name="rl_steer_joint" type="revolute">
+  <origin xyz="0.12095 0.010053 0.162432" rpy="0 0 0"/>
+  <parent link="Part23_v1__7__1"/>
+  <child link="wahaczv2_v1__4__1"/>
+  <axis xyz="0.0 0.0 -1.0"/>
+  <dynamics damping="0.1" friction="0.1"/>
+  <limit effort="100" lower="-0.785398" upper="0.785398" velocity="10"/>
+</joint>
+
+<!-- SRODEK PRAWY -->
+<joint name="mr_steer_joint" type="revolute">
+  <origin xyz="0.14623 -0.010052 -0.056332" rpy="0 0 0"/>
+  <parent link="Part23_v1__4__1"/>
+  <child link="wahaczv2_v1__3__1"/>
+  <axis xyz="0.0 0.0 -1.0"/>
+  <dynamics damping="0.1" friction="0.1"/>
+  <limit effort="100" lower="-0.785398" upper="0.785398" velocity="10"/>
+</joint>
+
+<!-- TYL PRAWY -->
+<joint name="rr_steer_joint" type="revolute">
+  <origin xyz="0.14818 -0.010052 0.141712" rpy="0 0 0"/>
+  <parent link="Part23_v1__5__1"/>
+  <child link="wahaczv2_v1__2__1"/>
+  <axis xyz="-0.0 0.0 -1.0"/>
+  <dynamics damping="0.1" friction="0.1"/>
+  <limit effort="100" lower="-0.785398" upper="0.785398" velocity="10"/>
+</joint>
+
+<joint name="Rigid 35" type="fixed">
+  <origin xyz="0.0157 0.01039 -0.04586" rpy="0 0 0"/>
+  <parent link="wahaczv2_v1__3__1"/>
+  <child link="Part23_v1__11__1"/>
+</joint>
+
+<joint name="Rigid 36" type="fixed">
+  <origin xyz="0.0157 0.01039 -0.04586" rpy="0 0 0"/>
+  <parent link="wahaczv2_v1__2__1"/>
+  <child link="Part23_v1__10__1"/>
+</joint>
+
+<joint name="Rigid 37" type="fixed">
+  <origin xyz="-0.0157 0.01039 -0.04586" rpy="0 0 0"/>
+  <parent link="wahaczv2_v1__4__1"/>
+  <child link="Part23_v1__9__1"/>
+</joint>
+
+<joint name="Rigid 38" type="fixed">
+  <origin xyz="-0.0157 -0.01039 -0.04586" rpy="0 0 0"/>
+  <parent link="wahaczv2_v1__5__1"/>
+  <child link="Part23_v1__8__1"/>
+</joint>
+ <!-- SRODEK PRAWY -->
+<joint name="mr_wheel_joint" type="continuous">
+  <origin xyz="-0.0352 -0.01025 -0.03275" rpy="0 0 0"/>
+  <parent link="Part23_v1__11__1"/>
+  <child link="felga_v1__5__1"/>
+  <axis xyz="-1.0 0.0 0.0"/>
+  <dynamics damping="0.1" friction="0.1"/>
+</joint>
+<!-- TYL PRAWY -->
+<joint name="rr_wheel_joint" type="continuous"> 
+  <origin xyz="-0.0352 -0.01025 -0.03275" rpy="0 0 0"/>
+  <parent link="Part23_v1__10__1"/>
+  <child link="felga_v1__4__1"/>
+  <axis xyz="-1.0 0.0 0.0"/>
+  <dynamics damping="0.1" friction="0.1"/>
+</joint>
+ <!-- SRODEK LEWY -->
+<joint name="ml_wheel_joint" type="continuous">
+  <origin xyz="0.0352 0.01025 -0.03275" rpy="0 0 0"/>
+  <parent link="Part23_v1__8__1"/>
+  <child link="felga_v1__3__1"/>
+  <axis xyz="1.0 0.0 0.0"/>
+  <dynamics damping="0.1" friction="0.1"/>
+</joint>
+
+<!-- TYL LEWY -->
+<joint name="rl_wheel_joint" type="continuous">
+  <origin xyz="0.0352 -0.01025 -0.03275" rpy="0 0 0"/>
+  <parent link="Part23_v1__9__1"/>
+  <child link="felga_v1__2__1"/>
+  <axis xyz="1.0 0.0 -0.0"/>
+  <dynamics damping="0.1" friction="0.1"/>
+</joint>
+
+<joint name="Rigid 43" type="fixed">
+  <origin xyz="0.01 0.0 0.0" rpy="0 0 0"/>
+  <parent link="felga_v1__2__1"/>
+  <child link="opona_nowa__1__v1__5__1"/>
+</joint>
+
+<joint name="Rigid 44" type="fixed">
+  <origin xyz="0.01 0.0 0.0" rpy="0 0 0"/>
+  <parent link="felga_v1__3__1"/>
+  <child link="opona_nowa__1__v1__4__1"/>
+</joint>
+
+<joint name="Rigid 45" type="fixed">
+  <origin xyz="0.009999 0.0 -0.00014" rpy="0 0 0"/>
+  <parent link="felga_v1_1"/>
+  <child link="opona_nowa__1__v1__3__1"/>
+</joint>
+
+<joint name="Rigid 46" type="fixed">
+  <origin xyz="-0.01 0.0 0.0" rpy="0 0 0"/>
+  <parent link="felga_v1__4__1"/>
+  <child link="opona_nowa__1__v1__2__1"/>
+</joint>
+
+<joint name="Rigid 47" type="fixed">
+  <origin xyz="-0.01 0.0 0.0" rpy="0 0 0"/>
+  <parent link="felga_v1__5__1"/>
+  <child link="opona_nowa__1__v1_1"/>
+</joint>
+
+<joint name="Rigid 48" type="fixed">
+  <origin xyz="-0.009999 0.0 0.000141" rpy="0 0 0"/>
+  <parent link="felga_v1__1__1"/>
+  <child link="opona_nowa__1__v1__1__1"/>
+</joint>
+
+<joint name="Rigid 49" type="fixed">
+  <origin xyz="-0.006 0.120316 0.018612" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="boxv1_v1_1"/>
+</joint>
+
+<joint name="Rigid 50" type="fixed">
+  <origin xyz="0.006 -0.095 0.0025" rpy="0 0 0"/>
+  <parent link="boxv1_v1_1"/>
+  <child link="box2_v1_1"/>
+</joint>
+
+<joint name="Rigid 51" type="fixed">
+  <origin xyz="0.064 -0.11 0.0025" rpy="0 0 0"/>
+  <parent link="box2_v1_1"/>
+  <child link="filar_v1__3__1"/>
+</joint>
+
+<joint name="Rigid 52" type="fixed">
+  <origin xyz="-0.064 -0.11 0.0025" rpy="0 0 0"/>
+  <parent link="box2_v1_1"/>
+  <child link="filar_v1__1__1"/>
+</joint>
+
+<joint name="Rigid 53" type="fixed">
+  <origin xyz="0.07 0.005 0.005" rpy="0 0 0"/>
+  <parent link="boxv1_v1_1"/>
+  <child link="filar_v1__2__1"/>
+</joint>
+
+<joint name="Rigid 55" type="fixed">
+  <origin xyz="0.006 0.01 0.005" rpy="0 0 0"/>
+  <parent link="boxv1_v1_1"/>
+  <child link="sciana_v1__1__1"/>
+</joint>
+
+<joint name="Rigid 56" type="fixed">
+  <origin xyz="-0.058 0.005 0.005" rpy="0 0 0"/>
+  <parent link="boxv1_v1_1"/>
+  <child link="filar_v1_1"/>
+</joint>
+
+<joint name="Rigid 57" type="fixed">
+  <origin xyz="0.0 -0.115 0.0025" rpy="0 0 0"/>
+  <parent link="box2_v1_1"/>
+  <child link="sciana_v1_1"/>
+</joint>
+
+<joint name="Rigid 58" type="fixed">
+  <origin xyz="-0.063 -0.09 0.005" rpy="0 0 0"/>
+  <parent link="boxv1_v1_1"/>
+  <child link="sciana2_v1__1__1"/>
+</joint>
+
+<joint name="Rigid 59" type="fixed">
+  <origin xyz="0.075 -0.09 0.005" rpy="0 0 0"/>
+  <parent link="boxv1_v1_1"/>
+  <child link="sciana2_v1_1"/>
+</joint>
+
+<ros2_control name="GazeboSystem" type="system">
+  <hardware>
+    <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+  </hardware>
+  <joint name="fl_steer_joint">
+  <command_interface name="position">
+    <param name="min">-1.0472</param>
+    <param name="max">1.0472</param>
+  </command_interface>
+  <state_interface name="position"/>
+  <state_interface name="velocity"/>
+  </joint>
+  <joint name="fr_steer_joint">
+  <command_interface name="position">
+    <param name="min">-1.0472</param>
+    <param name="max">1.0472</param>
+  </command_interface>
+  <state_interface name="position"/>
+  <state_interface name="velocity"/>
+  </joint>
+    <joint name="ml_steer_joint">
+  <command_interface name="position">
+    <param name="min">-1.0472</param>
+    <param name="max">1.0472</param>
+  </command_interface>
+  <state_interface name="position"/>
+  <state_interface name="velocity"/>
+  </joint>
+    <joint name="mr_steer_joint">
+  <command_interface name="position">
+    <param name="min">-1.0472</param>
+    <param name="max">1.0472</param>
+  </command_interface>
+  <state_interface name="position"/>
+  <state_interface name="velocity"/>
+  </joint>
+  <joint name="rl_steer_joint">
+  <command_interface name="position">
+    <param name="min">-1.0472</param>
+    <param name="max">1.0472</param>
+  </command_interface>
+  <state_interface name="position"/>
+  <state_interface name="velocity"/>
+  </joint>
+  <joint name="rr_steer_joint">
+  <command_interface name="position">
+    <param name="min">-1.0472</param>
+    <param name="max">1.0472</param>
+  </command_interface>
+  <state_interface name="position"/>
+  <state_interface name="velocity"/>
+  </joint>
+  <joint name="fl_wheel_joint">
+    <command_interface name="velocity"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+  <joint name="fr_wheel_joint">
+    <command_interface name="velocity"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+  <joint name="ml_wheel_joint">
+    <command_interface name="velocity"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+  <joint name="mr_wheel_joint">
+    <command_interface name="velocity"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+  <joint name="rl_wheel_joint">
+    <command_interface name="velocity"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+  <joint name="rr_wheel_joint">
+    <command_interface name="velocity"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+</ros2_control>
+
+  <gazebo>
+    <plugin filename="gz_ros2_control-system"
+            name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(arg controllers_file)</parameters>
+    </plugin>
+  </gazebo>
+
+</robot>
+
+
+
+
