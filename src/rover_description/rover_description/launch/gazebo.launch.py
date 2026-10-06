@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Symulacja lazika 6-kolowego (4 kola skretne) w Gazebo Harmonic.
-
-Uruchomienie:
-    ros2 launch rover_description gazebo.launch.py
-    ros2 launch rover_description gazebo.launch.py world:=rover_world.sdf joy:=false
-"""
 
 import os
 
@@ -171,7 +164,7 @@ def generate_launch_description():
 
     kinematics = Node(
         package='rover_control',
-        executable='ackermann_6wheel_node',
+        executable='kinematyka_node',
         name='rover_kinematics',
         output='screen',
         parameters=[

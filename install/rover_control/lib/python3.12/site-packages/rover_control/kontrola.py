@@ -141,7 +141,7 @@ class Kinematyka(Node):
         v_mid = omega * self.b
         v_corner = omega * r_corner
 
-        v = [-v_corner, v_corner, -v_mid, v_mid, -v_corner, v_corner]
+        v = [v_corner, v_corner, v_mid, v_mid, v_corner, v_corner]
         angles = [-delta, delta, 0, 0, delta, -delta]
 
         vmax = max(abs(vi) for vi in v)
@@ -149,7 +149,7 @@ class Kinematyka(Node):
             k = self.v_max / vmax
             v = [x * k for x in v]
 
-        return angles, v
+        return angles, [vi / self.wheel_radius for vi in v]
 
     #AKTUALIZUJE AKTUALNY STAN - KATY, PREDKOSCI, TRYB STEROWANIA
     def update(self):

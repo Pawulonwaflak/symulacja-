@@ -8,7 +8,6 @@ from launch_ros.parameter_descriptions import ParameterValue
 def generate_launch_description():
     pkg_name = 'rover_description'
     
-    # Dokładne ścieżki na podstawie Twojego zrzutu ekranu
     xacro_file = os.path.join(get_package_share_directory(pkg_name), 'urdf', 'Rover.xacro')
     rviz_config = os.path.join(get_package_share_directory(pkg_name), 'launch', 'urdf.rviz')
     

@@ -1,1 +1,8 @@
-/home/pawla/ros2_ws/src/rover_description/rover_description/urdf/materials.xacro
+<?xml version="1.0" ?>
+<robot name="Rover" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+<material name="silver">
+  <color rgba="0.700 0.700 0.700 1.000"/>
+</material>
+
+</robot>

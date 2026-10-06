@@ -1,1 +1,29 @@
-/home/pawla/ros2_ws/src/rover_description/rover_description/config/controllers.yaml
+controller_manager:
+  ros__parameters:
+    update_rate: 200          # Hz. Musi byc wielokrotnoscia 1/max_step_size
+                              # swiata (0.001 s -> 1000 Hz), inaczej gubisz cykle.
+    use_sim_time: true
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    steer_position_controller:
+      type: position_controllers/JointGroupPositionController
+
+    wheel_velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
+
+# --------------------------------------------------------------------
+# KOLEJNOSC JOINTOW JEST KONTRAKTEM.
+# Wezel kinematyki wysyla Float64MultiArray z wartosciami dokladnie
+# w tej kolejnosci. Zmiana tutaj bez zmiany w kodzie = lazik jedzie bokiem.
+# --------------------------------------------------------------------
+steer_position_controller:
+  ros__parameters:
+    joints: [rl_steer_joint, rr_steer_joint, ml_steer_joint, mr_steer_joint, fl_steer_joint, fr_steer_joint]
+
+wheel_velocity_controller:
+  ros__parameters:
+    joints: [rl_wheel_joint, rr_wheel_joint, ml_wheel_joint,
+             mr_wheel_joint, fl_wheel_joint, fr_wheel_joint]

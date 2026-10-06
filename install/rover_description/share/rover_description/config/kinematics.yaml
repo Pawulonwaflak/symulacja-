@@ -1,1 +1,25 @@
-/home/pawla/ros2_ws/src/rover_description/rover_description/config/kinematics.yaml
+rover_kinematics:
+  ros__parameters:
+    use_sim_time: true
+
+    # --- geometria (MUSI zgadzac sie z URDF) --------------------------
+    a: 0.198                # os srodkowa -> os przednia [m]
+    b: 0.124                 # polowa rozstawu kol [m]
+    wheel_radius: 0.063      # [m]
+
+    # --- limity ------------------------------------------------------
+    delta_max_deg: 90.0     # wartosc KOMENDOWANA, nizsza niz limit w URDF
+    v_max: 1.0              # [m/s]
+    omega_max_spot: 0.6     # [rad/s]
+    kappa_rate: 1.5         # [1/m/s] - chroni serwa przed szarpnieciem drazka
+
+    # --- przelaczanie trybu ------------------------------------------
+    realign_tol_deg: 2.0
+    realign_hold: 5
+
+    rate: 50.0
+
+    # --- mapowanie joysticka -----------------------------------------
+    axis_steer: 0
+    axis_throttle: 1
+    button_mode: 0

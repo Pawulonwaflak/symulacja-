@@ -1,1 +1,2 @@
-/home/pawla/ros2_ws/build/rover_description/ament_cmake_environment_hooks/local_setup.dsv
+source;share/rover_description/environment/ament_prefix_path.sh
+source;share/rover_description/environment/path.sh
