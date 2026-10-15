@@ -1108,7 +1108,7 @@
   <child link="wahaczv2_v1_1"/>
   <axis xyz="-0.014057 0.0 -0.999901"/>
   <dynamics damping="0.1" friction="0.1"/>
-  <limit effort="100" lower="-0.785398" upper="0.785398" velocity="10"/>
+  <limit effort="100" lower="-1.5708" upper="1.5708" velocity="10"/>
 </joint>
 
 <joint name="Rigid 16" type="fixed">
@@ -1143,7 +1143,7 @@
   <child link="wahaczv2_v1__1__1"/>
   <axis xyz="-0.014057 0.0 -0.999901"/>
   <dynamics damping="0.1" friction="0.1"/>
-  <limit effort="100" lower="-0.785398" upper="0.785398" velocity="10"/>
+  <limit effort="100" lower="-1.5708" upper="1.5708" velocity="10"/>
 </joint>
 
 <joint name="Rigid 21" type="fixed">
@@ -1214,7 +1214,7 @@
   <child link="wahaczv2_v1__5__1"/>
   <axis xyz="-0.0 0.0 -1.0"/>
   <dynamics damping="0.1" friction="0.1"/>
-  <limit effort="100" lower="-0.785398" upper="0.785398" velocity="10"/>
+  <limit effort="100" lower="-1.5708" upper="1.5708" velocity="10"/>
 </joint>
 
 <!-- TYL LEWY -->
@@ -1224,7 +1224,7 @@
   <child link="wahaczv2_v1__4__1"/>
   <axis xyz="0.0 0.0 -1.0"/>
   <dynamics damping="0.1" friction="0.1"/>
-  <limit effort="100" lower="-0.785398" upper="0.785398" velocity="10"/>
+  <limit effort="100" lower="-1.5708" upper="1.5708" velocity="10"/>
 </joint>
 
 <!-- SRODEK PRAWY -->
@@ -1234,7 +1234,7 @@
   <child link="wahaczv2_v1__3__1"/>
   <axis xyz="0.0 0.0 -1.0"/>
   <dynamics damping="0.1" friction="0.1"/>
-  <limit effort="100" lower="-0.785398" upper="0.785398" velocity="10"/>
+  <limit effort="100" lower="-1.5708" upper="1.5708" velocity="10"/>
 </joint>
 
 <!-- TYL PRAWY -->
@@ -1244,7 +1244,7 @@
   <child link="wahaczv2_v1__2__1"/>
   <axis xyz="-0.0 0.0 -1.0"/>
   <dynamics damping="0.1" friction="0.1"/>
-  <limit effort="100" lower="-0.785398" upper="0.785398" velocity="10"/>
+  <limit effort="100" lower="-1.5708" upper="1.5708" velocity="10"/>
 </joint>
 
 <joint name="Rigid 35" type="fixed">

@@ -5,6 +5,7 @@ from rclpy.node import Node
 from sensor_msgs.msg import Joy, JointState
 from std_msgs.msg import Float64MultiArray
 from std_msgs.msg import Float32MultiArray
+from geometry_msgs.msg import Twist
 
 # Kolejnosc musi byc tak jak w controllers.yaml
 STEER_ORDER = ['rl', 'rr', 'ml', 'mr', 'fl', 'fr'] #######cos sie chyba nie zgadza z kolejnoscia bo sie zlizga
@@ -20,7 +21,7 @@ class Kinematyka(Node):
         self.a = self.declare_parameter('a', 0.198).value
         self.b = self.declare_parameter('b', 0.123).value
         self.wheel_radius = self.declare_parameter('wheel_radius', 0.063).value
-        self.angle_max = math.radians(self.declare_parameter('angle_max_deg', 60.0).value)
+        self.angle_max = math.radians(self.declare_parameter('angle_max_deg', 90.0).value)
         self.rate = self.declare_parameter('rate', 50.0).value
         self.kappa_rate = self.declare_parameter('kappa_rate', 1.5).value #####okresla o jaka wartosc moze zmienic sie kappa w ciagu jednej iteracji, bez tego parametru punkt ICR przesuwa sie natychmiastowo, co mogloby spowodowac nieprawidlowe dzialanie sterowania
         self.deg_tol = math.radians(self.declare_parameter('realign_tol_deg', 2.0).value)
@@ -41,14 +42,14 @@ class Kinematyka(Node):
         self.skret_pub = self.create_publisher(Float64MultiArray, '/steer_position_controller/commands', 10)
         self.predkosc_pub = self.create_publisher(Float64MultiArray, '/wheel_velocity_controller/commands', 10)
 
-        self.create_subscription(Joy, '/joy', self.joy_callback, 10)
+        self.create_subscription(Twist, "/cmd_vel", self.twist_callback, 10)
         self.create_subscription(JointState, '/joint_states', self.joint_state_callback, 10)
         self.create_subscription(Float32MultiArray, '/rover_cmd', self.drive_mode_callback, 10)
         self.create_timer(self.dt, self.update)
 
         ###################AKTUALNY STAN#########################
         self.delta_now = {}
-        self.delta_cmd = [0.0] * 4
+        self.delta_cmd = [0.0] * 6
         self.mode_number = 0
         self.mode = DRIVE
         self.next_mode = DRIVE
@@ -70,9 +71,9 @@ class Kinematyka(Node):
             self.kappa = 0.0    
 
     #ros2 interface show sensor_msgs/msg/Joy - ukazuej interface wiadomosci Joy - float32[] axes - pomiary z osi joysticka, int32[] buttons - stan przycisku, 0 - nie wcisniety, 1 - wcisniety
-    def joy_callback(self, msg):
-        self.steer_input = msg.axes[self.axis_steer]
-        self.velocity_input = msg.axes[self.axis_velocity]
+    def twist_callback(self, msg):
+        self.velocity_input = max(-1.0, min(1.0, msg.linear.x / self.v_max))
+        self.steer_input = max(-1.0, min(1.0, msg.linear.y / self.v_max))
         # if len(msg.buttons) > self.button_mode:
         #     b = msg.buttons[self.button_mode]
         #     if b == 1 and self.btn_prev == 0 and self.mode != REALIGN: #czyli jezeli przycisk wcisniety i wystapilo zbocze narastajace i nie dokonuje sie juz jakis inny REALIGN
@@ -169,14 +170,14 @@ class Kinematyka(Node):
         elif target == SPOT:
             omega = self.steer_input * self.omega_max_spot
             self.delta_cmd, wheels = self.spot_katy_vel(omega)
-        else:
+        elif target == CRAB:
                 angle = math.atan2(self.steer_input, self.velocity_input)     # kierunek
-                mag   = min(1.0, math.hypot(self.steer_input, self.velocity_input))
-                angle = max(-self.angle_max, min(self.angle_max, angle))
-                if abs(angle) > math.pi / 2:          # do tylu: odwroc kolo, jedz wstecz
-                    angle -= math.copysign(math.pi, angle)
-                    mag = -mag
-                angle = max(-self.angle_max, min(self.angle_max, angle))
+                mag = math.hypot(self.steer_input, self.velocity_input)
+                sign = 1 if angle >= 0 else -1
+                if abs(angle) > self.angle_max:          
+                    angle = math.copysign(self.angle_max, sign)
+                if -math.pi < angle < 0:
+                    mag = -mag    
                 self.delta_cmd = [angle] * 6
                 v = mag * self.v_max
                 wheels = [v / self.wheel_radius] * 6
@@ -188,7 +189,6 @@ class Kinematyka(Node):
         
         self.skret_pub.publish(Float64MultiArray(data=self.delta_cmd))
         self.predkosc_pub.publish(Float64MultiArray(data=wheels))
-
 def main():
     rclpy.init()
     node = Kinematyka()

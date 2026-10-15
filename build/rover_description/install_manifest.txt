@@ -10,6 +10,7 @@
 /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/install/setup.zsh
 /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/install/_local_setup_util_ps1.py
 /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/install/_local_setup_util_sh.py
+/home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/rover.urdf
 /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/joint_map.py
 /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/Rover.trans
 /home/pawla/ros2_ws/install/rover_description/share/rover_description/urdf/Rover.gazebo
@@ -97,12 +98,10 @@
 /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/felga_v1__4__1.stl
 /home/pawla/ros2_ws/install/rover_description/share/rover_description/meshes/Part23_v1__6__1.stl
 /home/pawla/ros2_ws/install/rover_description/share/rover_description/launch/display.launch
-/home/pawla/ros2_ws/install/rover_description/share/rover_description/launch/controller.yaml
 /home/pawla/ros2_ws/install/rover_description/share/rover_description/launch/gazebo.launch
 /home/pawla/ros2_ws/install/rover_description/share/rover_description/launch/urdf.rviz
 /home/pawla/ros2_ws/install/rover_description/share/rover_description/launch/display.launch.py
 /home/pawla/ros2_ws/install/rover_description/share/rover_description/launch/gazebo.launch.py
-/home/pawla/ros2_ws/install/rover_description/share/rover_description/launch/controller.launch
 /home/pawla/ros2_ws/install/rover_description/share/rover_description/config/controllers.yaml
 /home/pawla/ros2_ws/install/rover_description/share/rover_description/config/kinematics.yaml
 /home/pawla/ros2_ws/install/rover_description/share/rover_description/config/bridge_parameters.yaml

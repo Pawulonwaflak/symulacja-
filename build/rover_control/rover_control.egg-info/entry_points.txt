@@ -1,2 +1,3 @@
 [console_scripts]
 kinematyka_node = rover_control.kontrola:main
+sterowanie_node = rover_control.sterowanie:main
