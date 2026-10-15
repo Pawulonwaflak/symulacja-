@@ -30,6 +30,7 @@ class Sterowanie(Node):
         self.vy = 0.0
         self.omega = 0.0
 
+        
         ######################WYJSCIA##################################
         self.angles = [0.0] * 6
         self.speeds = [0.0] * 6

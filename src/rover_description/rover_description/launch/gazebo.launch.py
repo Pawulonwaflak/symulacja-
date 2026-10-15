@@ -38,7 +38,6 @@ def generate_launch_description():
         ])
     )
 
-    
     xacro_file = os.path.join(pkg_share, 'urdf', 'Rover.xacro')
     controllers_yaml = os.path.join(pkg_share, 'config', 'controllers.yaml')
 
@@ -51,9 +50,6 @@ def generate_launch_description():
 
     bridge_params_path = os.path.join(pkg_share, 'config', 'bridge_parameters.yaml')
 
-    # ------------------------------------------------------------------
-    # Gazebo
-    # ------------------------------------------------------------------
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             os.path.join(get_package_share_directory('ros_gz_sim'),
@@ -118,15 +114,6 @@ def generate_launch_description():
             OnProcessExit(target_action=steer_ctrl, on_exit=[wheel_ctrl])
         ),
     ]
-
-    # joy_node = Node(
-    #     package='joy',
-    #     executable='joy_node',
-    #     output='screen',
-    #     parameters=[{'use_sim_time': True, 'deadzone': 0.08,
-    #                  'autorepeat_rate': 20.0}],
-    #     condition=IfCondition(LaunchConfiguration('joy')),
-    # )
 
     kinematics = Node(
         package='rover_control',

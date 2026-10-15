@@ -1,23 +1,16 @@
 #!/usr/bin/env python3
 """
-Test skoordynowanego ruchu - zadajesz promien skretu, skrypt liczy
-i publikuje KOMPLET katow i predkosci.
-
-    python3 arc_test.py 0.5 0.25      # R = 0.5 m w lewo, 0.25 m/s
-    python3 arc_test.py -0.5 0.25     # R = 0.5 m w prawo
-    python3 arc_test.py 0 0.25        # jazda prosto
-    python3 arc_test.py 0.5 0         # sam skret, bez jazdy
+Test skoordynowanego ruchu - sterownik w dziedzinie prędkości.
+Nasłuchuje poleceń vx i omega na temacie /cmd_vel.
 
 Ctrl+C zatrzymuje i zeruje.
 """
 
-import sys
 import math
-import time
-
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float64MultiArray
+from geometry_msgs.msg import Twist
 
 # --- geometria (z joint_map.py) ---------------------------------------
 A = 0.198          # os srodkowa -> os skrajna [m]
@@ -29,80 +22,87 @@ R_WHEEL = 0.063    # <-- PODMIEN na swoj promien kola [m]
 # Kolejnosc jak w controllers.yaml: [17, 22, 41, 39, 42, 40]
 FLIP = [1, -1, 1, -1, 1, -1]
 
+WHEEL_COORDS = [
+    (A, B),
+    (A, -B),
+    (0, B),
+    (0, -B),
+    (-A, B),
+    (-A, -B)
+]
 
-class ArcTest(Node):
-    def __init__(self, R, v):
-        super().__init__('arc_test')
-        self.R, self.v = R, v
+class VelocityController(Node):
+    def __init__(self):
+        super().__init__('velocity_kinematics_node')
+        
+        self.vx = 0.0
+        self.omega = 0.0
+        
+        self.angles = [0.0] * 6
+        self.speeds = [0.0] * 6
 
         self.ps = self.create_publisher(
             Float64MultiArray, '/steer_position_controller/commands', 10)
         self.pw = self.create_publisher(
             Float64MultiArray, '/wheel_velocity_controller/commands', 10)
-
-        self.angles, self.speeds = self.solve()
-
-        print(f'\nR = {"prosto" if R == 0 else f"{R:+.3f} m"}   v = {v:.3f} m/s')
-        print(f'katy   [fl fr rl rr] = '
-              f'{[round(math.degrees(x), 1) for x in self.angles]} st')
-        print(f'omega  [fl fr ml mr rl rr] = '
-              f'{[round(x, 2) for x in self.speeds]} rad/s\n')
+            
+        self.sub = self.create_subscription(
+            Twist, '/cmd_vel', self.cmd_callback, 10)
 
         self.create_timer(0.05, self.tick)
+        self.get_logger().info('Węzeł uruchomiony. Czekam na /cmd_vel...')
+
+    def cmd_callback(self, msg: Twist):
+        self.vx = msg.linear.x
+        self.omega = msg.angular.z
 
     def solve(self):
-        if abs(self.R) < 1e-6:
-            angles = [0.0] * 6
-            v = [self.v] * 6
-        else:
-            R, s = abs(self.R), math.copysign(1.0, self.R)
-            d_in = math.atan2(A, R - B)
-            d_out = math.atan2(A, R + B)
-
-            d_fl, d_fr = (d_in, d_out) if s > 0 else (-d_out, -d_in)
-            angles = [d_fl, d_fr, 0, 0, -d_fl, -d_fr]
-
-            r_in = math.hypot(A, R - B)
-            r_out = math.hypot(A, R + B)
-            m_in, m_out = R - B, R + B
-
-            radii = ([r_in, r_out, m_in, m_out, r_in, r_out] if s > 0
-                     else [r_out, r_in, m_out, m_in, r_out, r_in])
-            v = [self.v * r / R for r in radii]
-
-        omega = [x / R_WHEEL * f for x, f in zip(v, FLIP)]
-        return angles, omega
+        angles = []
+        speeds = []
+        
+        for i, (x, y) in enumerate(WHEEL_COORDS):
+            vx_k = self.vx - self.omega * y
+            vy_k = self.omega * x
+            
+            speed = math.hypot(vx_k, vy_k)
+            angle = math.atan2(vy_k, vx_k)
+            
+            if angle > math.pi / 2:
+                angle -= math.pi
+                speed = -speed
+            elif angle < -math.pi / 2:
+                angle += math.pi
+                speed = -speed
+                
+            omega_wheel = (speed / R_WHEEL) * FLIP[i]
+            
+            angles.append(angle)
+            speeds.append(omega_wheel)
+            
+        return angles, speeds
 
     def tick(self):
+        self.angles, self.speeds = self.solve()
         self.ps.publish(Float64MultiArray(data=self.angles))
         self.pw.publish(Float64MultiArray(data=self.speeds))
 
     def stop(self):
         self.pw.publish(Float64MultiArray(data=[0.0] * 6))
-        self.ps.publish(Float64MultiArray(data=[0.0] * 4))
+        self.ps.publish(Float64MultiArray(data=[0.0] * 6))
 
 
-def main():
-    R = float(sys.argv[1]) if len(sys.argv) > 1 else 0.5
-    v = float(sys.argv[2]) if len(sys.argv) > 2 else 0.25
-
-    rclpy.init()
-    node = ArcTest(R, v)
-
-    node.ps.publish(Float64MultiArray(data=node.angles))
-    print('ustawiam kola...')
-    time.sleep(1.5)
-    print('jazda (Ctrl+C konczy)\n')
+def main(args=None):
+    rclpy.init(args=args)
+    node = VelocityController()
 
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
+        node.get_logger().info('Zatrzymywanie robota...')
         node.stop()
-        time.sleep(0.3)
     finally:
         node.destroy_node()
         rclpy.shutdown()
-
 
 if __name__ == '__main__':
     main()
