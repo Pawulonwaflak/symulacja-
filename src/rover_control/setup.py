@@ -26,6 +26,7 @@ setup(
     'console_scripts': [
         #'ackermann_6wheel_node = rover_control.ackermann_6wheel_node:main',
         'kinematyka_node = rover_control.kontrola:main',
+        'sterowanie_node = rover_control.sterowanie:main',
     ],
     },
 )
