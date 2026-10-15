@@ -3,6 +3,18 @@
 
 <xacro:property name="body_color" value="Gazebo/Silver" />
 
+<gazebo>
+  <plugin filename="gz-sim-odometry-publisher-system"
+          name="gz::sim::systems::OdometryPublisher">
+    <!-- Uklad odniesienia swiata -->
+    <odom_frame>world</odom_frame>
+    <!-- Glowny czlon robota -->
+    <robot_base_frame>base_footprint</robot_base_frame>
+    <!-- Czestotliwosc publikacji -->
+    <odom_publish_frequency>50</odom_publish_frequency>
+  </plugin>
+</gazebo>
+
 <gazebo reference="base_link">
   <material>${body_color}</material>
   <mu1>0.2</mu1>
