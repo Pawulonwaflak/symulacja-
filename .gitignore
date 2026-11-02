@@ -7,3 +7,4 @@ __pycache__/ros_venv/
 build/
 install/
 log/
+ros_venv/
