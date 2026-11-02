@@ -30,7 +30,6 @@ class Sterowanie(Node):
         self.vy = 0.0
         self.omega = 0.0
 
-        
         ######################WYJSCIA##################################
         self.angles = [0.0] * 6
         self.speeds = [0.0] * 6
@@ -59,8 +58,13 @@ class Sterowanie(Node):
         self.steer_pos = [pos.get(j, 0.0) for j in self.steer_joints]
 
     def solve(self):
+        # Przy zerowym sterowaniu zachowaj ostatnie katy zwrotnic i zatrzymaj kola
+        if math.hypot(self.vx, self.vy) < 1e-4 and abs(self.omega) < 1e-4:
+            return list(self.angles), [0.0] * 6
+
         angles = []  
         speeds = [] 
+        max_steer = math.radians(135.0)  # Pozwala na obrot w miejscu (~122 st.) bez skoku o 180 st.
 
         for i, (x, y) in enumerate(self.wheel_positions):
             vx_i = self.vx - self.omega * y
@@ -69,11 +73,24 @@ class Sterowanie(Node):
             angle = math.atan2(vy_i, vx_i)
             speed = math.hypot(vx_i, vy_i)
 
-            if angle > math.pi / 2:
+            # Poprzedni kat danej zwrotnicy (w ukladzie przed mnozeniem przez STEER_SIGN)
+            prev_angle = self.angles[i] * STEER_SIGN
+
+            # Najkrotsza roznica katowa wzgledem poprzedniego polozenia zwrotnicy
+            diff = math.atan2(math.sin(angle - prev_angle), math.cos(angle - prev_angle))
+
+            # Odwrocenie kierunku kola o 180 st. tylko gdy daje mniejszy ruch zwrotnicy
+            if abs(diff) > math.pi / 2:
+                angle = prev_angle + diff - math.copysign(math.pi, diff)
+                speed = -speed
+            else:
+                angle = prev_angle + diff
+
+            # Zabezpieczenie przed przekroczeniem limitu wychylenia zwrotnicy (+-135 st.)
+            if angle > max_steer:
                 angle -= math.pi
                 speed = -speed
-
-            elif angle < -math.pi / 2:
+            elif angle < -max_steer:
                 angle += math.pi
                 speed = -speed
 
@@ -82,21 +99,17 @@ class Sterowanie(Node):
             angles.append(angle * STEER_SIGN)
             speeds.append(omega_i)    
 
-
         return angles, speeds
 
     def tick(self):
         self.angles, self.speeds = self.solve()
         self.ps.publish(Float64MultiArray(data=self.angles))
 
-        # t = self.get_clock().now().nanoseconds * 1e-9
-
+        # Skalowanie predkosci kol w zaleznosci od bledu ustawienia zwrotnic
         for i in range(len(self.angles)):
             err = self.angles[i] - self.steer_pos[i]
             scale = max(0.0, math.cos(err))
             self.speeds[i] *= scale
-            # if abs(err) > self.deg_tol:
-            #     self.speeds[i] = 0.0
          
         self.pw.publish(Float64MultiArray(data=self.speeds))
 
@@ -104,7 +117,6 @@ class Sterowanie(Node):
         self.pw.publish(Float64MultiArray(data=[0.0] * 6))
         self.ps.publish(Float64MultiArray(data=[0.0] * 6))
 
-                  
 
 def main(args=None):
     rclpy.init(args=args)

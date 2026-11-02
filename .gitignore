@@ -3,4 +3,7 @@ log/
 install/
 
 ros_venv/
-__pycache__/
+__pycache__/ros_venv/
+build/
+install/
+log/
