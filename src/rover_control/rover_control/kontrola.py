@@ -1,201 +1,350 @@
 import math
-
 import rclpy
 from rclpy.node import Node
-from sensor_msgs.msg import Joy, JointState
 from std_msgs.msg import Float64MultiArray
-from std_msgs.msg import Float32MultiArray
-from geometry_msgs.msg import Twist
+from sensor_msgs.msg import Joy, JointState
 
-# Kolejnosc musi byc tak jak w controllers.yaml
-STEER_ORDER = ['rl', 'rr', 'ml', 'mr', 'fl', 'fr'] #######cos sie chyba nie zgadza z kolejnoscia bo sie zlizga
-WHEEL_ORDER = ['rl', 'rr', 'ml', 'mr', 'fl', 'fr']
+# Kolejność kół: ['rl', 'rr', 'ml', 'mr', 'fl', 'fr']
+FLIP = [-1, 1, -1, 1, -1, 1]
+STEER_SIGN = -1
 
-# TRYBY STEROWANIA I PRZEŁĄCZANIE MIĘDZY NIMI
 DRIVE, REALIGN, SPOT, CRAB = 'DRIVE', 'REALIGN', 'SPOT', 'CRAB'
 
+
 class Kinematyka(Node):
+    """Wszystkie tryby liczone z jednego wzoru bryły sztywnej:  v_i = v + omega x r_i
+
+        DRIVE : vy = 0,        omega = vx * steer / R_min      (Ackermann)
+        SPOT  : vx = vy = 0,   omega z prawej gałki
+        CRAB  : omega = 0,     (vx, vy) = kierunek lewej gałki
+
+    Gaz ze znakiem: R2 = do przodu, L2 = do tyłu (throttle = R2 - L2).
+    W CRAB gałka wybiera OŚ ruchu, a triggery zwrot po tej osi.
+
+    Kąty liczone są z KIERUNKU zadania (twist jednostkowy), a prędkość skalowana
+    osobno gazem - dzięki temu koła ustawiają się też przy stojącym robocie.
+    """
+
     def __init__(self):
         super().__init__('kinematyka')
 
+        ###################### PARAMETRY #########################
         self.a = self.declare_parameter('a', 0.198).value
-        self.b = self.declare_parameter('b', 0.123).value
+        self.b = self.declare_parameter('b', 0.124).value
         self.wheel_radius = self.declare_parameter('wheel_radius', 0.063).value
-        self.angle_max = math.radians(self.declare_parameter('angle_max_deg', 90.0).value)
         self.rate = self.declare_parameter('rate', 50.0).value
-        self.kappa_rate = self.declare_parameter('kappa_rate', 1.5).value #####okresla o jaka wartosc moze zmienic sie kappa w ciagu jednej iteracji, bez tego parametru punkt ICR przesuwa sie natychmiastowo, co mogloby spowodowac nieprawidlowe dzialanie sterowania
-        self.deg_tol = math.radians(self.declare_parameter('realign_tol_deg', 2.0).value)
-        self.v_max = self.declare_parameter('v_max', 1.0).value
+        self.deg_tol = math.radians(self.declare_parameter('realign_tol_deg', 3.0).value)
+
+        self.v_max = self.declare_parameter('v_max', 1.0).value                  # prędkość robota [m/s]
+        self.wheel_v_max = self.declare_parameter('wheel_v_max', 1.0).value      # limit prędkości LINIOWEJ koła [m/s]
         self.omega_max_spot = self.declare_parameter('omega_max_spot', 0.6).value
-        #PRZYPISANIE MIEJSCA DANYCH W ODEBRANEJ TABLICY
-        self.axis_steer = self.declare_parameter('axis_steer', 0).value
-        self.axis_velocity = self.declare_parameter('axis_velocity', 1).value
-        self.axis_type = self.declare_parameter('axis_type', 0).value
-        self.button_mode = self.declare_parameter('button_mode', 0).value
+        self.ackermann_max_deg = self.declare_parameter('ackermann_max_deg', 40.0).value
+        self.deadzone = self.declare_parameter('deadzone', 0.10).value
 
-        self.R_min = self.b + self.a / math.tan(self.angle_max)
-        self.kappa_max = 1.0 / self.R_min
-        self.dt = 1.0 / self.rate
+        # Skręt kół: twardy limit stawu i zapas na histerezę flipu (kąt <-> kąt+-180 st. z odwróconą prędkością)
+        self.steer_limit = math.radians(self.declare_parameter('steer_limit_deg', 90.0).value)
+        self.flip_hyst = math.radians(self.declare_parameter('flip_hyst_deg', 10.0).value)
 
-        self.delta_skid = math.atan2(self.a, self.b)
+        # Limitery (ochrona prądowa)
+        self.steer_rate = math.radians(self.declare_parameter('steer_rate_deg', 90.0).value)  # [rad/s]
+        self.accel_max = self.declare_parameter('accel_max', 1).value   # przyspieszenie koła [m/s^2]
+        self.decel_max = self.declare_parameter('decel_max', 4.0).value   # hamowanie koła [m/s^2]
+        # Gaz maleje liniowo do 0, gdy koła nie są jeszcze ustawione (błąd skrętu między start a stop)
+        self.gate_start = math.radians(self.declare_parameter('gate_start_deg', 5.0).value)
+        self.gate_stop = math.radians(self.declare_parameter('gate_stop_deg', 20.0).value)
 
-        self.skret_pub = self.create_publisher(Float64MultiArray, '/steer_position_controller/commands', 10)
-        self.predkosc_pub = self.create_publisher(Float64MultiArray, '/wheel_velocity_controller/commands', 10)
+        self.crab_stick_min = self.declare_parameter('crab_stick_min', 0.3).value
+        self.r2_rest = self.declare_parameter('r2_rest', 1.0).value      # wartość osi R2 w spoczynku
+        self.l2_rest = self.declare_parameter('l2_rest', 1.0).value      # wartość osi L2 w spoczynku
+        self.trigger_deadzone = self.declare_parameter('trigger_deadzone', 0.03).value
+        self.joy_timeout = self.declare_parameter('joy_timeout', 0.5).value
 
-        self.create_subscription(Twist, "/cmd_vel", self.twist_callback, 10)
-        self.create_subscription(JointState, '/joint_states', self.joint_state_callback, 10)
-        self.create_subscription(Float32MultiArray, '/rover_cmd', self.drive_mode_callback, 10)
-        self.create_timer(self.dt, self.update)
+        # Osie PS4 (sprawdź: ros2 topic echo /joy)
+        self.axis_left_x = 0
+        self.axis_left_y = 1
+        self.axis_right_x = 3
+        self.axis_l2 = 2
+        self.axis_r2 = 5
 
-        ###################AKTUALNY STAN#########################
-        self.delta_now = {}
-        self.delta_cmd = [0.0] * 6
-        self.mode_number = 0
+        self.btn_drive = 0      # Krzyżyk (X)  -> DRIVE
+        self.btn_spot = 1       # Kółko (O)    -> SPOT
+        self.btn_crab = 3       # Kwadrat      -> CRAB
+        self.btn_deadman = 4    # L1           -> DEADMAN_SWITCH
+
+        self.R_min = self.b + self.a / math.tan(math.radians(self.ackermann_max_deg))
+
+        self.wheel_pos = [(-self.a, self.b), (-self.a, -self.b), (0.0, self.b),
+                          (0.0, -self.b), (self.a, self.b), (self.a, -self.b)]
+
+        self.steer_joints = [
+            'rl_steer_joint', 'rr_steer_joint', 'ml_steer_joint',
+            'mr_steer_joint', 'fl_steer_joint', 'fr_steer_joint'
+        ]
+
+        ##################### STAN #########################
         self.mode = DRIVE
         self.next_mode = DRIVE
-        self.kappa = 0.0
-        self.steer_input = 0.0
-        self.velocity_input = 0.0
-        self.btn_prev = 0
+        self.prev_buttons = []
 
-    def drive_mode_callback(self, msg):
-        self.type = msg.data[self.axis_type]
-        if self.type == 1:
-            self.next_mode = SPOT
-        elif self.type == 2:
-            self.next_mode = CRAB
-        else:
-            self.next_mode = DRIVE
-        if self.mode != REALIGN and self.next_mode != self.mode:
-            self.mode = REALIGN
-            self.kappa = 0.0    
+        self.lx = 0.0
+        self.ly = 0.0
+        self.rx = 0.0
+        self.throttle = 0.0      
+        self.armed = {'r2': False, 'l2': False}
+        self.deadman = False
+        self.crab_phi = 0.0       # ostatni kierunek CRAB [rad], pełny okrąg
 
-    #ros2 interface show sensor_msgs/msg/Joy - ukazuej interface wiadomosci Joy - float32[] axes - pomiary z osi joysticka, int32[] buttons - stan przycisku, 0 - nie wcisniety, 1 - wcisniety
-    def twist_callback(self, msg):
-        self.velocity_input = max(-1.0, min(1.0, msg.linear.x / self.v_max))
-        self.steer_input = max(-1.0, min(1.0, msg.linear.y / self.v_max))
-        # if len(msg.buttons) > self.button_mode:
-        #     b = msg.buttons[self.button_mode]
-        #     if b == 1 and self.btn_prev == 0 and self.mode != REALIGN: #czyli jezeli przycisk wcisniety i wystapilo zbocze narastajace i nie dokonuje sie juz jakis inny REALIGN
-        #         #self.next_mode = self.type ###CZY TO ZADZIALA???? DO SPRAWDZENIA - zalezy od kolejnsoci wywolania callbackow
-        #         self.mode = REALIGN
+        self.last_joy = None
+        self.last_tick = None
+        self.have_js = False
 
-        #     self.btn_prev = b
+        self.tgt_raw = [0.0] * 6      # ostatni cel kątów (konwencja fizyczna, bez STEER_SIGN) - pamięć histerezy
+        self.angles = [0.0] * 6       # cel kątów stawów (po STEER_SIGN)
+        self.speeds = [0.0] * 6       # cel prędkości kół [rad/s] (po FLIP)
+        self.cmd_angles = [0.0] * 6   # to, co idzie na topic (po limiterze)
+        self.cmd_speeds = [0.0] * 6
+        self.steer_pos = [0.0] * 6
 
-    def joint_state_callback(self, msg):
-        for name, pos in zip(msg.name, msg.position):
-            for k in STEER_ORDER:
-                if name == f'{k}_steer_joint':
-                    self.delta_now[k] = pos
+        self.ps = self.create_publisher(Float64MultiArray, '/steer_position_controller/commands', 10)
+        self.pw = self.create_publisher(Float64MultiArray, '/wheel_velocity_controller/commands', 10)
 
-    #OBLICZA ODPOWIEDNIE KATY NA PODSTAIW DANYCH Z JOYSTICKA
-    def katy(self, kappa):
-        if abs(kappa) < 1e-4:
-            return [0.0] * 6, [float('inf')] * 6 #dla kappa bliskiego 0, zwracamy 0 dla katow i inf dla promieni, bo nie ma ICR (ICR->infinity), jazda prosto oznacza brak skretow kol i jazda po obwodzie hipotytecznego okregu o nieskonczonym promieniu
-        
-        R = 1 / kappa 
-        s = 1 if R >= 0 else -1
-        Ra = abs(R)
+        self.joy_sub = self.create_subscription(Joy, '/joy', self.joy_callback, 10)
+        self.js_sub = self.create_subscription(JointState, '/joint_states', self.js_callback, 10)
 
-        delta_in = math.atan2(self.a, Ra - self.b)
-        delta_out = math.atan2(self.a, Ra + self.b)
+        self.create_timer(1.0 / self.rate, self.tick)
+        self.get_logger().info(
+            'Uruchomiono. DRIVE: L1 czuwak, R2 gaz, L2 wstecz, lewa gałka X skręt | '
+            'SPOT: prawa gałka X obrót | CRAB: lewa gałka oś ruchu, R2 przód / L2 tył')
 
-        delta_fl, delta_fr = (delta_in, delta_out) if s > 0 else (-delta_out, -delta_in)
-        angles = [delta_fl, delta_fr, 0, 0, -delta_fl, -delta_fr]
+    ##################### JOY #########################
+    def apply_deadzone(self, val):
+        if abs(val) < self.deadzone:
+            return 0.0
+        return (val - math.copysign(self.deadzone, val)) / (1.0 - self.deadzone)
 
-        r_in = math.sqrt((Ra - self.b)**2 + self.a**2)
-        r_out = math.sqrt((Ra + self.b)**2 + self.a**2)
-        r_min = Ra - self.b
-        r_mout = Ra + self.b
+    def axis(self, msg, idx):
+        return msg.axes[idx] if idx < len(msg.axes) else 0.0
 
-        if s > 0:
-            D = [r_in, r_out, r_min, r_mout, r_in, r_out]
-        else:
-            D = [r_out, r_in, r_mout, r_min, r_out, r_in]
-
-        return angles, D
-
-
-    def align(self):
-        if len(self.delta_now) < 4:
+    def is_rising_edge(self, buttons, idx):
+        if len(buttons) <= idx or len(self.prev_buttons) <= idx:
             return False
-        error = max(abs(self.delta_now[k] - self.delta_cmd[i]) for i, k in enumerate(STEER_ORDER))
-        return error < self.deg_tol
+        return buttons[idx] == 1 and self.prev_buttons[idx] == 0
 
-    #OBLICZA ODPOWIEDNIE PREDKOSCI NA PODSTAWIE DANYCH Z JOYSTICKA
-    def predkosci(self, kappa, v_srodka_masy, D):
-        if abs(kappa) < 1e-4:
-            return [v_srodka_masy / self.wheel_radius] * 6
+    def read_trigger(self, msg, idx, rest, key):
+        """Trigger -> 0..1 (0 = puszczony, 1 = wciśnięty do końca)."""
+        if idx >= len(msg.axes):
+            return 0.0
+        raw = msg.axes[idx]
+        if not self.armed[key]:
+            # część sterowników daje 0.0 do pierwszego ruchu triggera
+            if abs(raw - rest) < 0.1:
+                self.armed[key] = True
+            else:
+                return 0.0
+        t = max(0.0, min(1.0, abs(raw - rest) / 2.0))
+        return 0.0 if t < self.trigger_deadzone else t
 
-        omega = v_srodka_masy * kappa
-        v = [omega * r * (1 if kappa > 0 else -1) for r in D]
-        ####kontrola przed przekroczeniem predkosci maksymalnej
-        vmax = max(abs(vi) for vi in v)
-        ####skalowanie predkosci, jesli przekroczona zostala predkosc maksymalna
-        if vmax > self.v_max:
-            v = [vi * self.v_max / vmax for vi in v]
-        return [vi / self.wheel_radius for vi in v]
+    def joy_callback(self, msg: Joy):
+        self.last_joy = self.get_clock().now()
 
-    def spot_katy_vel(self, omega):
-        delta = math.atan2(self.a, self.b)
-        r_corner = math.hypot(self.a, self.b)
-        v_mid = omega * self.b
-        v_corner = omega * r_corner
+        if not self.prev_buttons:
+            self.prev_buttons = list(msg.buttons)
 
-        v = [v_corner, v_corner, v_mid, v_mid, v_corner, v_corner]
-        angles = [-delta, delta, 0, 0, delta, -delta]
+        # 1. Zmiana trybu (X, O, Kwadrat)
+        if self.mode != REALIGN:
+            req = self.mode
+            if self.is_rising_edge(msg.buttons, self.btn_drive):
+                req = DRIVE
+            elif self.is_rising_edge(msg.buttons, self.btn_spot):
+                req = SPOT
+            elif self.is_rising_edge(msg.buttons, self.btn_crab):
+                req = CRAB
 
-        vmax = max(abs(vi) for vi in v)
-        if vmax > self.v_max:
-            k = self.v_max / vmax
-            v = [x * k for x in v]
+            if req != self.mode:
+                self.next_mode = req
+                self.mode = REALIGN
+                self.get_logger().info(f'Przełączanie: REALIGN -> {self.next_mode}')
 
-        return angles, [vi / self.wheel_radius for vi in v]
+        self.prev_buttons = list(msg.buttons)
 
-    #AKTUALIZUJE AKTUALNY STAN - KATY, PREDKOSCI, TRYB STEROWANIA
-    def update(self):
-        target = self.next_mode if self.mode == REALIGN else self.mode
+        # 2. R2 - L2 (czytamy zawsze, żeby się "uzbroiły")
+        throttle = (self.read_trigger(msg, self.axis_r2, self.r2_rest, 'r2')
+                    - self.read_trigger(msg, self.axis_l2, self.l2_rest, 'l2'))
 
+        # 3. Czuwak (L1)
+        self.deadman = len(msg.buttons) > self.btn_deadman and msg.buttons[self.btn_deadman] == 1
+        if not self.deadman:
+            self.lx = self.ly = self.rx = self.throttle = 0.0
+            return
+
+        if not all(self.armed.values()):
+            waiting = ' i '.join(k.upper() for k, v in self.armed.items() if not v)
+            self.get_logger().warn(f'{waiting} jeszcze nieuzbrojone - wciśnij i puść raz',
+                                   throttle_duration_sec=3.0)
+
+        # 4. Gałki
+        self.lx = self.apply_deadzone(self.axis(msg, self.axis_left_x))
+        self.ly = self.apply_deadzone(self.axis(msg, self.axis_left_y))
+        self.rx = self.apply_deadzone(self.axis(msg, self.axis_right_x))
+        self.throttle = throttle
+
+    def js_callback(self, msg: JointState):
+        pos = dict(zip(msg.name, msg.position))
+        self.steer_pos = [pos.get(j, 0.0) for j in self.steer_joints]
+        if not self.have_js:
+            # start od faktycznych kątów kół, żeby nie było skoku zadania
+            self.cmd_angles = list(self.steer_pos)
+            self.tgt_raw = [p * STEER_SIGN for p in self.steer_pos]
+        self.have_js = True
+
+    ##################### KINEMATYKA #########################
+    def swerve(self, vx, vy, w, scale):
+        band = self.steer_limit + self.flip_hyst
+        raw, lin = [], []
+        for i, (x, y) in enumerate(self.wheel_pos):
+            ux = vx - w * y
+            uy = vy + w * x
+            v = math.hypot(ux, uy)
+            ang = math.atan2(uy, ux) if v > 1e-6 else self.tgt_raw[i]   # v~0 -> trzymaj kąt
+
+            cands = [(ang, v), (ang - math.copysign(math.pi, ang), -v)]
+            ok = [c for c in cands if abs(c[0]) <= band]
+            if not ok:
+                ok = [min(cands, key=lambda c: abs(c[0]))]
+            ang, v = min(ok, key=lambda c: abs(c[0] - self.tgt_raw[i]))
+
+            self.tgt_raw[i] = ang
+            raw.append(max(-self.steer_limit, min(self.steer_limit, ang)))
+            lin.append(v * scale)
+        return raw, lin
+
+    def plan(self, target, realign):
+        """Tryb + gałki -> (vx, vy, w, scale). scale ze znakiem (R2 - L2). W REALIGN: poza docelowa, scale = 0."""
         if target == DRIVE:
-            v_body = self.velocity_input * self.v_max
-            target = self.steer_input * self.kappa_max #docelowy punkt ICR czyli docelowa kappa
-            step = self.kappa_rate * self.dt ##o tyle kappa moze sie zmienic w trkacie jednej iteracji, aby zmienic potencjalnie mozna zmienic kappa rate albo paramter rate(wtedy trzeba zmienic rater tez w kinematics.yaml)
-            roznica = target - self.kappa #roznica miedzy aktualna wartoscia kappa a wartoscia docelowa
-            ograniczenie = min(step, roznica) #roznica w cyklu nie moze byc wieksza niz step
-            ograniczenie = max(-step, ograniczenie) #istotnie jedynie gdy roznica < 0, wtdy z pierwszej linijki zostaje rozncia a z tej -step
-            self.kappa = self.kappa + ograniczenie
+            if realign:
+                return 1.0, 0.0, 0.0, 0.0
+            # scale ze znakiem: L2 (scale < 0) jedzie po tym samym łuku do tyłu
+            return 1.0, 0.0, self.lx / self.R_min, self.throttle * self.v_max
 
-            self.delta_cmd, D = self.katy(self.kappa)
-            wheels = self.predkosci(self.kappa, v_body, D)
-        elif target == SPOT:
-            omega = self.steer_input * self.omega_max_spot
-            self.delta_cmd, wheels = self.spot_katy_vel(omega)
-        elif target == CRAB:
-                angle = math.atan2(self.steer_input, self.velocity_input)     # kierunek
-                mag = math.hypot(self.steer_input, self.velocity_input)
-                sign = 1 if angle >= 0 else -1
-                if abs(angle) > self.angle_max:          
-                    angle = math.copysign(self.angle_max, sign)
-                if -math.pi < angle < 0:
-                    mag = -mag    
-                self.delta_cmd = [angle] * 6
-                v = mag * self.v_max
-                wheels = [v / self.wheel_radius] * 6
-        if self.mode == REALIGN:
-            self.delta_cmd = [0.0] * 6
-            wheels = [0.0] * 6
-            if self.align():
+        if target == SPOT:
+            s = 1.0 if self.rx >= 0.0 else -1.0     # ta sama linia kół w obie strony, zmienia się tylko znak prędkości
+            return 0.0, 0.0, s, 0.0 if realign else abs(self.rx) * self.omega_max_spot
+
+        # CRAB
+        if realign:
+            self.crab_phi = 0.0
+            return 1.0, 0.0, 0.0, 0.0
+        if math.hypot(self.ly, self.lx) > self.crab_stick_min:
+            self.crab_phi = math.atan2(self.lx, self.ly)    # vx = ly (przód), vy = lx (lewo)
+        return math.cos(self.crab_phi), math.sin(self.crab_phi), 0.0, self.throttle * self.v_max
+
+    ##################### LIMITERY #########################
+    def max_steer_error(self):
+        return max(abs(self.angles[i] - self.steer_pos[i]) for i in range(6))
+
+    def is_aligned(self):
+        return self.max_steer_error() < self.deg_tol
+
+    def steer_gate(self):
+        """1.0 = koła ustawione, 0.0 = daleko od celu (nie jedziemy, żeby nie szorować)."""
+        if not self.have_js:
+            return 1.0
+        err = self.max_steer_error()
+        if err <= self.gate_start:
+            return 1.0
+        if err >= self.gate_stop:
+            return 0.0
+        return (self.gate_stop - err) / (self.gate_stop - self.gate_start)
+
+    def ramp_angles(self, dt):
+        step = self.steer_rate * dt
+        self.cmd_angles = [c + max(-step, min(step, t - c)) for c, t in zip(self.cmd_angles, self.angles)]
+
+    def ramp_speeds(self, dt):
+        out = []
+        for c, t in zip(self.cmd_speeds, self.speeds):
+            lim = (self.decel_max if abs(t) < abs(c) else self.accel_max) / self.wheel_radius * dt
+            out.append(c + max(-lim, min(lim, t - c)))
+        self.cmd_speeds = out
+
+    def check_joy_timeout(self):
+        if self.last_joy is None:
+            return
+        dt = (self.get_clock().now() - self.last_joy).nanoseconds * 1e-9
+        if dt > self.joy_timeout:
+            self.lx = self.ly = self.rx = self.throttle = 0.0
+            self.deadman = False
+
+    ##################### PĘTLA #########################
+    def tick(self):
+        now = self.get_clock().now()
+        dt = (now - self.last_tick).nanoseconds * 1e-9 if self.last_tick is not None else 1.0 / self.rate
+        self.last_tick = now
+        dt = max(0.0, min(dt, 0.1))
+
+        self.check_joy_timeout()
+
+        realign = self.mode == REALIGN
+        target = self.next_mode if realign else self.mode
+
+        # 1. Zadanie -> kąty i prędkości kół z jednego wzoru
+        vx, vy, w, scale = self.plan(target, realign)
+        raw, lin = self.swerve(vx, vy, w, scale)
+        self.angles = [a * STEER_SIGN for a in raw]
+
+        # 2. Limit prędkości liniowej koła (skaluje wszystkie koła razem, kierunek jazdy się nie zmienia)
+        m = max(abs(v) for v in lin)
+        if m > self.wheel_v_max:
+            lin = [v * self.wheel_v_max / m for v in lin]
+
+        # 3. Blokada gazu, dopóki koła nie dojadą do kątów
+        gate = self.steer_gate()
+        if gate < 1.0 and m > 1e-6:
+            self.get_logger().info(
+                f'Gaz ograniczony ({gate:.0%}): błąd skrętu {math.degrees(self.max_steer_error()):.1f} st.',
+                throttle_duration_sec=2.0)
+        self.speeds = [(lin[i] * gate / self.wheel_radius) * FLIP[i] for i in range(6)]
+
+        # 4. Limitery: kąty zawsze z ograniczoną szybkością, prędkości z rampą
+        #    (brak czuwaka lub REALIGN = natychmiastowy stop kół)
+        self.ramp_angles(dt)
+        if realign or not self.deadman:
+            self.cmd_speeds = [0.0] * 6
+        else:
+            self.ramp_speeds(dt)
+
+        # 5. REALIGN: czekamy aż skręty dojadą do kątów docelowych
+        if realign:
+            if not self.have_js:
+                self.get_logger().warn('REALIGN: brak /joint_states - nie wiem, czy koła są ustawione',
+                                       throttle_duration_sec=2.0)
+            elif self.is_aligned():
                 self.mode = self.next_mode
-        
-        self.skret_pub.publish(Float64MultiArray(data=self.delta_cmd))
-        self.predkosc_pub.publish(Float64MultiArray(data=wheels))
-def main():
-    rclpy.init()
+                self.get_logger().info(f'Zakończono REALIGN. Aktywny tryb: {self.mode}')
+            else:
+                self.get_logger().info(
+                    f'REALIGN: max błąd skrętu {math.degrees(self.max_steer_error()):.1f} st.',
+                    throttle_duration_sec=1.0)
+
+        self.ps.publish(Float64MultiArray(data=[float(x) for x in self.cmd_angles]))
+        self.pw.publish(Float64MultiArray(data=[float(x) for x in self.cmd_speeds]))
+
+    def stop(self):
+        self.pw.publish(Float64MultiArray(data=[0.0] * 6))
+        self.ps.publish(Float64MultiArray(data=[0.0] * 6))
+
+
+def main(args=None):
+    rclpy.init(args=args)
     node = Kinematyka()
-    rclpy.spin(node)
-    node.destroy_node()
-    rclpy.shutdown()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        node.stop()
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()
-        

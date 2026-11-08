@@ -117,7 +117,7 @@ def generate_launch_description():
 
     kinematics = Node(
         package='rover_control',
-        executable='sterowanie_node',
+        executable='kinematyka_node',
         name='rover_kinematics',
         output='screen',
         parameters=[
